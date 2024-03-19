@@ -114,10 +114,10 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
 }
 
 abstract class balancedTree<K: Comparable<K>, V, someNode: abstractNode<K, V, someNode>>: abstractTree<K, V, someNode>() {
-    protected fun rotateLeft() {
+    protected fun rotateLeft(node: someNode) {
 
     }
-    protected fun rotateRight() {
+    protected fun rotateRight(node: someNode) {
 
     }
     protected open fun balanceAfterInsert(insertedNode: someNode) {
