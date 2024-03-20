@@ -1,7 +1,5 @@
 package abstractions
 
-import AVL.AVLNode
-
 abstract class abstractNode<K: Comparable<K>, V, someNode: abstractNode<K, V, someNode>>(var key:K, var value: V) {
     var leftChild: someNode? = null
     var rightChild: someNode? = null
@@ -54,11 +52,16 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
     }
 
     open fun delete(key: K) {
+        deleteNode(key)
+    }
+
+    protected fun deleteNode(key: K): someNode? {
         val nodeToDelete = findNodeByKey(key)
-        if ((nodeToDelete == null) || (root == null)) return
+        if ((nodeToDelete == null) || (root == null)) return null
         val parentNode = findParent(nodeToDelete)
         /* no children case */
-        if (nodeToDelete.leftChild == null && nodeToDelete.rightChild == null) moveParentNode(nodeToDelete, parentNode, null)
+        if (nodeToDelete.leftChild == null && nodeToDelete.rightChild == null)
+            moveParentNode(nodeToDelete, parentNode, null)
         /* 1 child case */
         else if (nodeToDelete.leftChild == null || nodeToDelete.rightChild == null) {
             if (nodeToDelete.leftChild == null) moveParentNode(nodeToDelete, parentNode, nodeToDelete.rightChild)
@@ -67,13 +70,13 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
         /* 2 children case */
         else {
             val replacementNode = findMinNodeInRight(nodeToDelete.rightChild)
-            if (replacementNode != null) {
-                moveParentNode(replacementNode, findParent(replacementNode), null)
-                replacementNode.leftChild = nodeToDelete.leftChild
-                replacementNode.rightChild = nodeToDelete.rightChild
-                moveParentNode(nodeToDelete, findParent(nodeToDelete), replacementNode)
-            }
+                ?: throw IllegalStateException ("Node with 2 children must have a right child")
+            moveParentNode(replacementNode, findParent(replacementNode), null)
+            replacementNode.leftChild = nodeToDelete.leftChild
+            replacementNode.rightChild = nodeToDelete.rightChild
+            moveParentNode(nodeToDelete, parentNode, replacementNode)
         }
+        return parentNode
     }
 
     protected fun findParent(node: someNode): someNode? { // вродь работает
@@ -88,6 +91,7 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
         }
         return null
     }
+
     /* moves parent of a node to point to a different node instead */
     protected fun moveParentNode(node: someNode, parentNode: someNode?, replacementNode: someNode?) {
         when (parentNode) {
@@ -111,7 +115,11 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
         }
     }
 
-    fun findNodeByKey(key: K): someNode? {
+    fun find(key: K): V? {
+        return findNodeByKey(key)?.value
+    }
+
+    private fun findNodeByKey(key: K): someNode? {
         var curNode: someNode? = root ?: return null
         while (curNode != null) {
             curNode = when {
@@ -131,6 +139,18 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
             println("no such node")
         }
     }
+
+    fun preOrder(): List<someNode> {
+        val result = mutableListOf<someNode>()
+        fun walk(node: someNode, lst: MutableList<someNode>) {
+            lst.add(node)
+            node.leftChild?.let { walk(it, lst) }
+            node.rightChild?.let { walk(it, lst) }
+        }
+        if (root == null) return result
+        root?.let { walk(it, result) }
+        return result
+    }
 }
 
 abstract class balancedTree<K: Comparable<K>, V, someNode: abstractNode<K, V, someNode>>: abstractTree<K, V, someNode>() {
@@ -138,14 +158,14 @@ abstract class balancedTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
 
     protected abstract fun balanceAfterDelete(curNode: someNode)
 
-    protected open fun rotateRight (node: someNode, parentNode:  someNode?) {
+    protected open fun rotateRight(node: someNode, parentNode:  someNode?) {
         val tempNode = node.leftChild ?: throw IllegalArgumentException("Node must have left child for right rotation")
         node.leftChild = tempNode.rightChild
         tempNode.rightChild = node
         moveParentNode(node, parentNode, tempNode)
     }
 
-    protected open fun rotateLeft (node: someNode, parentNode:  someNode?) {
+    protected open fun rotateLeft(node: someNode, parentNode:  someNode?) {
         val tempNode = node.rightChild ?: throw IllegalArgumentException("Node must have right child for left rotation")
         node.rightChild = tempNode.leftChild
         tempNode.leftChild = node
@@ -159,18 +179,18 @@ class BSTree<K : Comparable<K>, V> : abstractTree<K, V, BSNode<K, V>>() {
 
 fun main() {
     var tree = BSTree<Int, Any>()
-    tree.insert(10, "hi")
-    tree.insert(5, "hi")
-    tree.insert(12, "hi")
-    tree.insert(1, "hi")
+//    tree.insert(10, "hi")
+//    tree.insert(5, "hi")
+//    tree.insert(12, "hi")
+//    tree.insert(1, "hi")
     tree.insert(8, "hi")
     //tree.insert(7, "hi")
     tree.delete(8)
     tree.printNode(8)
-//    val myList = tree.preOrder()
-//    for (item in myList) {
-//        print("${item.key} ")
-//    }
+    val myList = tree.preOrder()
+    for (item in myList) {
+        print("${item.key} ")
+    }
 //    tree.insert(4, "hi")
 //    tree.insert(2, "bye")
 //    tree.insert(6, "xo")
