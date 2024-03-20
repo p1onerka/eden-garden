@@ -1,7 +1,5 @@
 package abstractions
 
-import AVL.AVLNode
-
 abstract class abstractNode<K: Comparable<K>, V, someNode: abstractNode<K, V, someNode>>(var key:K, var value: V) {
     var leftChild: someNode? = null
     var rightChild: someNode? = null
@@ -58,7 +56,8 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
         if ((nodeToDelete == null) || (root == null)) return
         val parentNode = findParent(nodeToDelete)
         /* no children case */
-        if (nodeToDelete.leftChild == null && nodeToDelete.rightChild == null) moveParentNode(nodeToDelete, parentNode, null)
+        if (nodeToDelete.leftChild == null && nodeToDelete.rightChild == null)
+            moveParentNode(nodeToDelete, parentNode, null)
         /* 1 child case */
         else if (nodeToDelete.leftChild == null || nodeToDelete.rightChild == null) {
             if (nodeToDelete.leftChild == null) moveParentNode(nodeToDelete, parentNode, nodeToDelete.rightChild)
@@ -88,6 +87,7 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
         }
         return null
     }
+
     /* moves parent of a node to point to a different node instead */
     protected fun moveParentNode(node: someNode, parentNode: someNode?, replacementNode: someNode?) {
         when (parentNode) {
@@ -111,7 +111,11 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
         return subtree
     }
 
-    fun findNodeByKey(key: K): someNode? {
+    fun find(key: K): V? {
+        return findNodeByKey(key)?.value
+    }
+
+    protected fun findNodeByKey(key: K): someNode? {
         var curNode: someNode? = root ?: return null
         while (curNode != null) {
             curNode = when {
@@ -138,14 +142,14 @@ abstract class balancedTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
 
     protected abstract fun balanceAfterDelete(curNode: someNode)
 
-    protected open fun rotateRight (node: someNode, parentNode:  someNode?) {
+    protected open fun rotateRight(node: someNode, parentNode:  someNode?) {
         val tempNode = node.leftChild ?: throw IllegalArgumentException("Node must have left child for right rotation")
         node.leftChild = tempNode.rightChild
         tempNode.rightChild = node
         moveParentNode(node, parentNode, tempNode)
     }
 
-    protected open fun rotateLeft (node: someNode, parentNode:  someNode?) {
+    protected open fun rotateLeft(node: someNode, parentNode:  someNode?) {
         val tempNode = node.rightChild ?: throw IllegalArgumentException("Node must have right child for left rotation")
         node.rightChild = tempNode.leftChild
         tempNode.leftChild = node
