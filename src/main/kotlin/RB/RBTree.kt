@@ -11,6 +11,7 @@ class RBNode<K : Comparable<K>, V>(key: K, value: V): abstractNode<K, V, RBNode<
     var color: Color = Color.RED
     var parent: RBNode<K, V>? = null
 }
+
 class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
     override fun createNewNode(key: K, value: V): RBNode<K, V> {
         return RBNode(key, value)
@@ -58,7 +59,7 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
             val uncle = getUncle(node)
 
             if (uncle?.color == Color.RED) {
-                node.parent?.сolor = Color.BLACK
+                node.parent?.color = Color.BLACK
                 uncle.color = Color.BLACK
                 grandparent?.color = Color.RED
                 fixRedRedViolation(grandparent!!)
@@ -126,5 +127,13 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
         } else {
             return grandparent?.leftChild
         }
+    }
+
+    override fun balanceAfterInsert(curNode: RBNode<K, V>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun balanceAfterDelete(curNode: RBNode<K, V>) {
+        TODO("Not yet implemented")
     }
 }

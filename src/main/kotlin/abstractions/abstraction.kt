@@ -105,10 +105,10 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
         while (true) {
             minNode = minNode?.leftChild ?: break
         }
-        if (minNode != null) {
-            return minNode
+        when {
+            (minNode != null) -> return minNode
+            else -> return null
         }
-        return subtree
     }
 
     fun findNodeByKey(key: K): someNode? {
