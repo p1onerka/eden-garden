@@ -85,10 +85,10 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
         while (true) {
             minNode = minNode?.leftChild ?: break
         }
-        if (minNode != null) {
-            return minNode
+        when {
+            (minNode != null) -> return minNode
+            else -> return null
         }
-        return subtree
     }
 
     fun findNodeByKey(key: K): someNode? {
@@ -148,13 +148,15 @@ class BSTree<K : Comparable<K>, V> : abstractTree<K, V, BSNode<K, V>>() {
 
 fun main() {
 
-//    var tree = BSTree<Int, Any>()
-//    tree.insert(4, "hi")
-//    tree.insert(2, "bye")
-//    tree.insert(6, "xo")
-//    tree.insert(5, "del me")
-//    tree.insert(7, "suck")
-//    tree.delete(6)
-//    tree.printNode(6)
-//    tree.findNodeByKey(4)
+    var tree = BSTree<Int, Any>()
+    tree.insert(4, "hi")
+    tree.insert(2, "bye")
+    tree.insert(6, "xo")
+    tree.insert(5, "del me")
+    tree.insert(7, "suck")
+    tree.delete(6)
+    tree.printNode(5)
+    tree.printNode(6)
+    tree.printNode(7)
+    //tree.findNodeByKey(4)
 }
