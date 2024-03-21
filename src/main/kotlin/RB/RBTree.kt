@@ -16,27 +16,16 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
     override fun createNewNode(key: K, value: V): RBNode<K, V> {
         return RBNode(key, value)
     }
-//    override fun findParent(node: RBNode<K, V>): RBNode<K, V>? { // вродь работает
-//        var curNode = root
-//        while (curNode != null) {
-//            if (curNode.key == node.key) return null
-//            if (curNode.leftChild?.key == node.key || curNode.rightChild?.key == node.key) return curNode
-//            curNode = when {
-//                curNode.key < node.key -> curNode.rightChild
-//                else -> curNode.leftChild
-//            }
-//        }
-//        return null
-//    }
+
     override fun insert(key: K, value: V) {
-        var newNode = createNewNode(key, value)
+        val newNode = createNewNode(key, value)
         if (root == null) {
             root = newNode
             newNode.color = Color.BLACK
             return
         }
 
-        var parent = findParent(newNode)
+        val parent = findParent(newNode)
         if (parent == null) {
             println("Node with the same key already exists in the tree.")
             return
@@ -61,15 +50,19 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
             if (uncle?.color == Color.RED) {
                 node.parent?.color = Color.BLACK
                 uncle.color = Color.BLACK
-                grandparent?.color = Color.RED
-                fixRedRedViolation(grandparent!!)
+                if(grandparent != null) {
+                    grandparent.color = Color.RED
+                    fixRedRedViolation(grandparent)
+                } else {
+
+                }
             } else {
                 if (node == node.parent?.rightChild && node.parent == grandparent?.leftChild) {
                     rotateLeft(node.parent)
-                    node = node.leftChild!!
+                    node = node.leftChild ?: throw IllegalStateException("Left child is null")
                 } else if (node == node.parent?.leftChild && node.parent == grandparent?.rightChild) {
                     rotateRight(node.parent)
-                    node = node.rightChild!!
+                    node = node.rightChild ?: throw IllegalStateException("Right child is null")
                 }
 
                 if (node == node.parent?.leftChild) {
