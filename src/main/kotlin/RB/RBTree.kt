@@ -16,18 +16,18 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
     override fun createNewNode(key: K, value: V): RBNode<K, V> {
         return RBNode(key, value)
     }
-    private fun findParent(node: RBNode<K, V>): RBNode<K, V>? { // вродь работает
-        var curNode = root
-        while (curNode != null) {
-            if (curNode.key == node.key) return null
-            if (curNode.leftChild?.key == node.key || curNode.rightChild?.key == node.key) return curNode
-            curNode = when {
-                curNode.key < node.key -> curNode.rightChild
-                else -> curNode.leftChild
-            }
-        }
-        return null
-    }
+//    override fun findParent(node: RBNode<K, V>): RBNode<K, V>? { // вродь работает
+//        var curNode = root
+//        while (curNode != null) {
+//            if (curNode.key == node.key) return null
+//            if (curNode.leftChild?.key == node.key || curNode.rightChild?.key == node.key) return curNode
+//            curNode = when {
+//                curNode.key < node.key -> curNode.rightChild
+//                else -> curNode.leftChild
+//            }
+//        }
+//        return null
+//    }
     override fun insert(key: K, value: V) {
         var newNode = createNewNode(key, value)
         if (root == null) {
@@ -85,7 +85,7 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
     }
 
     private fun rotateLeft(node: RBNode<K, V>?) {
-        val newRoot = node?.rightChild!!
+        val newRoot = node?.rightChild ?: return
         node.rightChild = newRoot.leftChild
         if (newRoot.leftChild != null) {
             newRoot.leftChild?.parent = node
@@ -103,8 +103,8 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
     }
 
     private fun rotateRight(node: RBNode<K, V>?) {
-        val newRoot = node?.leftChild!!
-        node.leftChild = newRoot.rightChild
+        val newRoot = node?.leftChild ?: return
+        node.rightChild = newRoot.leftChild
         if (newRoot.rightChild != null) {
             newRoot.rightChild?.parent = node
         }
