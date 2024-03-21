@@ -8,7 +8,7 @@ abstract class abstractNode<K: Comparable<K>, V, someNode: abstractNode<K, V, so
 class BSNode<K : Comparable<K>, V>(key: K, value: V) : abstractNode<K, V, BSNode<K, V>>(key, value)
 
 abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, someNode>> {
-    private var root: someNode? = null
+    protected var root: someNode? = null
 
     protected abstract fun createNewNode(key: K, value: V): someNode
 
