@@ -2,7 +2,6 @@ package RB
 
 
 import abstractions.*
-import kotlin.math.max
 
 enum class Color {
     RED, BLACK
