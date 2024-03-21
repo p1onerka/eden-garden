@@ -9,17 +9,19 @@ class AVLNode<K : Comparable<K>, V>(key: K, value: V): abstractNode<K, V, AVLNod
 class AVLTree<K : Comparable<K>, V>: balancedTree<K, V, AVLNode<K, V>>() {
     override fun createNewNode(key: K, value: V) = AVLNode(key, value)
 
+    /* inserts a node & calls balancing after insertion */
     override fun insert(key: K, value: V) {
         val insertedNode = insertNode(key, value)
         if (insertedNode != null) {
-            //println("${findParent(insertedNode)?.key}, ${insertedNode.key}")
-            findParent(insertedNode)?.let {
-                //updateHeight(it) // надо еще подумать, насколько это должно быть тут
-                balanceAfterInsert(it)
-            }
-            //println("after balance: ${findParent(insertedNode)?.key}, ${insertedNode.key}")
-            //println("height after balance: ${findParent(insertedNode)?.height}, ${insertedNode.height}")
+            findParent(insertedNode)?.let { balanceAfterInsert(it) }
         }
+    }
+
+    /* deletes a node & calls balancing after deletion */
+    override fun delete(key: K) {
+        val deletedNodeParent = deleteNode(key)
+        /* if nothing was added or tree is empty, there's no need to balance it */
+        deletedNodeParent?.let { balanceAfterDelete(it) }
     }
 
     private fun getHeight(node: AVLNode<K, V>?): Int {
@@ -34,7 +36,9 @@ class AVLTree<K : Comparable<K>, V>: balancedTree<K, V, AVLNode<K, V>>() {
         return getHeight(node.rightChild) - getHeight(node.leftChild)
     }
 
-    override fun balanceAfterInsert(curNode: AVLNode<K, V>) {
+    /* balances a tree by performing left & right rotations
+    if absolute value of balance factor is more than 1 */
+    private fun balance (curNode: AVLNode<K, V>) {
         when (getBalanceFactor(curNode)) {
             -2 -> {
                 curNode.leftChild?.let { if (getBalanceFactor(it) == 1) rotateLeft(it, findParent(it)) }
@@ -49,15 +53,12 @@ class AVLTree<K : Comparable<K>, V>: balancedTree<K, V, AVLNode<K, V>>() {
         findParent(curNode)?.let { balanceAfterInsert(it) }
     }
 
-    /* I have no idea if this works */
-    override fun delete(key: K) {
-        val deletedNodeParent = deleteNode(key)
-        /* if nothing was added or tree is empty, there's no need to balance it */
-        deletedNodeParent?.let { balanceAfterInsert(it) }
+    override fun balanceAfterInsert(curNode: AVLNode<K, V>) {
+        balance(curNode)
     }
 
     override fun balanceAfterDelete(curNode: AVLNode<K, V>) {
-        TODO("Not yet implemented")
+        balance(curNode)
     }
 
     override fun rotateRight (node: AVLNode<K, V>, parentNode:  AVLNode<K, V>?) {
