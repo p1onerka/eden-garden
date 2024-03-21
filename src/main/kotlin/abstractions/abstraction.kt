@@ -141,16 +141,20 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
         }
     }
 
-    fun preOrder(): List<someNode> {
-        val result = mutableListOf<someNode>()
-        fun walk(node: someNode, lst: MutableList<someNode>) {
-            lst.add(node)
-            node.leftChild?.let { walk(it, lst) }
-            node.rightChild?.let { walk(it, lst) }
+    fun preorderTraversal(): List<K> {
+        val listOfNodes = mutableListOf<someNode>()
+        traverse(root, listOfNodes)
+        val listOfKeys = mutableListOf<K>()
+        listOfNodes.forEach { listOfKeys.add(it.key) }
+        return listOfKeys
+    }
+
+    private fun traverse(curNode: someNode?, listOfNodes: MutableList<someNode>) {
+        if(curNode != null) {
+            listOfNodes.add(curNode)
+            traverse(curNode.leftChild, listOfNodes)
+            traverse(curNode.rightChild, listOfNodes)
         }
-        if (root == null) return result
-        root?.let { walk(it, result) }
-        return result
     }
 }
 
@@ -179,18 +183,18 @@ class BSTree<K : Comparable<K>, V> : abstractTree<K, V, BSNode<K, V>>() {
 }
 
 fun main() {
-    var tree = BSTree<Int, Any>()
-//    tree.insert(10, "hi")
-//    tree.insert(5, "hi")
-//    tree.insert(12, "hi")
-//    tree.insert(1, "hi")
+    val tree = BSTree<Int, Any>()
+    tree.insert(10, "hi")
+    tree.insert(5, "hi")
+    tree.insert(12, "hi")
+    tree.insert(1, "hi")
     tree.insert(8, "hi")
-    //tree.insert(7, "hi")
+    tree.insert(7, "hi")
     tree.delete(8)
-    tree.printNode(8)
-    val myList = tree.preOrder()
+//    tree.printNode(8)
+    val myList = tree.preorderTraversal()
     for (item in myList) {
-        print("${item.key} ")
+        print("$item ")
     }
 //    tree.insert(4, "hi")
 //    tree.insert(2, "bye")
