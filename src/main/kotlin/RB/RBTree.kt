@@ -1,7 +1,6 @@
 package RB
 
 import abstractions.*
-import kotlin.math.max
 
 enum class Color {
     RED, BLACK
@@ -38,7 +37,8 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
             parent.rightChild = newNode
         }
     }
-    private fun fixRedRedViolation(node: RBNode<K, V>) {
+    private fun fixRedRedViolation(curNode: RBNode<K, V>) {
+        var node = curNode
         if (node == root) {
             node.color = Color.BLACK
             return
