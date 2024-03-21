@@ -70,7 +70,7 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
         /* 2 children case */
         else {
             val replacementNode = findMinNodeInRight(nodeToDelete.rightChild)
-                ?: throw IllegalStateException ("Node with 2 children must have a right child")
+                ?: throw IllegalArgumentException ("Node with 2 children must have a right child")
             moveParentNode(replacementNode, findParent(replacementNode), null)
             replacementNode.leftChild = nodeToDelete.leftChild
             replacementNode.rightChild = nodeToDelete.rightChild
@@ -104,6 +104,7 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
         }
     }
 
+    /* finds minimal node in a right subtree */
     private fun findMinNodeInRight(subtree: someNode?): someNode? {
         var minNode = subtree
         while (true) {
