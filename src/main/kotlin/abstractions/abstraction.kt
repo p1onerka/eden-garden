@@ -71,7 +71,9 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
         else {
             val replacementNode = findMinNodeInRight(nodeToDelete.rightChild)
                 ?: throw IllegalArgumentException ("Node with 2 children must have a right child")
-            moveParentNode(replacementNode, findParent(replacementNode), null)
+//            moveParentNode(replacementNode, findParent(replacementNode), null)
+            /* Idk if it now works correctly but hopefully yes */
+            moveParentNode(replacementNode, findParent(replacementNode), replacementNode.rightChild)
             replacementNode.leftChild = nodeToDelete.leftChild
             replacementNode.rightChild = nodeToDelete.rightChild
             moveParentNode(nodeToDelete, parentNode, replacementNode)
@@ -184,13 +186,16 @@ class BSTree<K : Comparable<K>, V> : abstractTree<K, V, BSNode<K, V>>() {
 
 fun main() {
     val tree = BSTree<Int, Any>()
-    tree.insert(10, "hi")
-    tree.insert(5, "hi")
-    tree.insert(12, "hi")
-    tree.insert(1, "hi")
-    tree.insert(8, "hi")
     tree.insert(7, "hi")
-    tree.delete(8)
+    tree.insert(11, "hi")
+    tree.insert(5, "hi")
+    tree.insert(1, "hi")
+    tree.insert(6, "hi")
+    tree.insert(9, "hi")
+    tree.insert(12, "hi")
+    tree.insert(8, "hi")
+    tree.insert(10, "hi")
+    tree.delete(7)
 //    tree.printNode(8)
     val myList = tree.preorderTraversal()
     for (item in myList) {
