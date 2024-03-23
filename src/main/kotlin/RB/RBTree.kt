@@ -43,6 +43,10 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
 
         newNode.parent = parent
 
+        println("parent of ${newNode.key} is ${newNode.parent?.key}")
+
+        balanceAfterInsert(newNode)
+
         fixRedRedViolation(newNode)
         fixBlackBlackViolation(newNode)
     }
@@ -163,7 +167,7 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
         }
     }
     override fun rotateLeft(node: RBNode<K, V>, parentNode: RBNode<K, V>?) {
-        val tempNode = node.rightChild ?: throw IllegalArgumentException("Node must have left child for right rotation")
+        val tempNode = node.rightChild ?: throw IllegalArgumentException("Node must have right child for left rotation")
         node.rightChild = tempNode.leftChild
         tempNode.leftChild = node
         if (tempNode == root) {
@@ -332,10 +336,27 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
             curNode.color = Color.BLACK
         }
     }
+    override fun delete(key: K) {
+        val parent = deleteNode(key)
+        parent?.let {
+            balanceAfterDelete(parent)
+            //fixRedRedViolation(parent)
+            //fixBlackBlackViolation(parent)
+        }
+    }
 }
 
 fun main() {
     var rb = RBTree<Int, Any>()
-    rb.insert(4, 6)
-    rb.insert(5, 7)
+    rb.insert(4, 1)
+    rb.insert(5, 1)
+    rb.insert(3, 1)
+    rb.insert(2, 1)
+    rb.delete(5)
+    //rb.insert(7, 10)
+
+    val myList = rb.preorderTraversal()
+    for (item in myList) {
+        print("$item ")
+    }
 }
