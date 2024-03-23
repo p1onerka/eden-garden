@@ -27,28 +27,26 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
 //
 //    }
     override fun insert(key: K, value: V) {
-        val newNode = createNewNode(key, value)
-        if (root == null) {
-            root = newNode
+        val newNode = insertNode(key, value)
+
+        if (newNode == null) {
+            //println("no insert have been found")
+            return
+        }
+        if (root == newNode) {
             newNode.color = Color.BLACK
             return
         }
 
         val parent = findParent(newNode)
-        if (parent == null) {
-            println("Node with the same key already exists in the tree.")
-            return
-        }
+            ?: throw IllegalArgumentException("non-root should have parent")
 
         newNode.parent = parent
-        if (newNode.key < parent.key) {
-            parent.leftChild = newNode
-        } else {
-            parent.rightChild = newNode
-        }
+
         fixRedRedViolation(newNode)
         fixBlackBlackViolation(newNode)
     }
+
     private fun getSibling(node: RBNode<K, V>): RBNode<K, V>? {
         if (node.parent == null) {
             return null
@@ -334,4 +332,10 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
             curNode.color = Color.BLACK
         }
     }
+}
+
+fun main() {
+    var rb = RBTree<Int, Any>()
+    rb.insert(4, 6)
+    rb.insert(5, 7)
 }
