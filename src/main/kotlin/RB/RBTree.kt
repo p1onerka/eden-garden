@@ -318,7 +318,7 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
                     if (sibling?.leftChild?.color == Color.BLACK) { // Случай 3: Соседняя вершина брата черная
                         sibling.rightChild?.color = Color.BLACK
                         sibling.color = Color.RED
-                        rotateLeft(curNode, sibling)
+                        rotateLeft(curNode, sibling)// meow
                         parent = curNode.parent
                     } else {
                         sibling?.color = parent.color
