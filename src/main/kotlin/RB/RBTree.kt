@@ -17,11 +17,11 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
     }
 
     override fun insert(key: K, value: V) {
-        val insertedNode = insertNode(key, value) ?: throw IllegalArgumentException("empty insert")
-        balanceAfterInsert(insertedNode)
+        val insertedNode = insertNode(key, value) ?: throw IllegalArgumentException("Nothing to insert")
+        balance(insertedNode, true)
     }
 
-    override fun balanceAfterInsert(curNode: RBNode<K, V>) {
+    private fun balanceAfterInsert(curNode: RBNode<K, V>) {
         var insertedNode = curNode
         insertedNode.color = Color.RED
 
@@ -31,7 +31,7 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
             return
         }
 
-        var parent = findParent(insertedNode) ?: throw IllegalArgumentException("non root should have parent")
+        var parent = findParent(insertedNode) ?: throw IllegalArgumentException("Non-root should have parent")
         insertedNode.parent = parent
 
         //case 1: parent of insertedNode is black
@@ -40,9 +40,9 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
         }
 
         val uncle = getUncle(insertedNode)
-        val grandparent = getGrandparent(insertedNode) ?: throw IllegalArgumentException("every node by that point should have grandy")
+        val grandparent = getGrandparent(insertedNode) ?: throw IllegalArgumentException("Every node by that point should have grandparent")
 
-        //case 2: uncle non-null and red (so both uncle and parent are red)
+        //case 2: uncle is non-null and red (so both uncle and parent are red)
         if ((uncle != null) && (uncle.color == Color.RED)) {
             parent.color = Color.BLACK
             uncle.color = Color.BLACK
@@ -51,19 +51,18 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
             return
         }
 
-        //case 3: uncle black. grandparent, parent and node form a "triangle". should be continued w case 4
+        //case 3: uncle is black; grandparent, parent and node form a "triangle"; should be continued w case 4
         if ((insertedNode == parent.rightChild) && (parent == grandparent.leftChild)) {
             rotateLeft(parent, grandparent)
             parent = insertedNode
-            insertedNode = insertedNode.leftChild ?: throw IllegalArgumentException("smth wrong w left rotation")
+            insertedNode = insertedNode.leftChild ?: throw IllegalArgumentException("Node should have child after left rotation")
 
         }
         else if ((insertedNode == parent.leftChild) && (parent == grandparent.rightChild)) {
             rotateRight(parent, grandparent)
             parent = insertedNode
-            insertedNode = insertedNode.rightChild ?: throw IllegalArgumentException("smth wrong w right rotation")
+            insertedNode = insertedNode.rightChild ?: throw IllegalArgumentException("Node should have right child after right rotation")
         }
-        //parent & cur оба красные, так что тут никого не надо перекрашивать (КАЖЕТСЯ!!)
 
         //case 4: grandparent, parent and node form a "line"
         parent.color = Color.BLACK
@@ -74,12 +73,12 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
         else {
             rotateLeft(grandparent, grandparent.parent)
         }
-        //println("node ${curNode.key} activated 4 case")
-        //println("cur is ${curNode.key}")
-        //println("parent is ${parent.key}")
-        //println("grand is ${grandparent.key}")
-        //println("grands left is ${grandparent.leftChild?.key}")
         return
+    }
+
+    override fun balance(curNode: RBNode<K, V>, isAfterInsert: Boolean) {
+        if (isAfterInsert) { balanceAfterInsert(curNode)}
+        else { balanceAfterDelete(curNode) }
     }
 
     private fun getGrandparent(node: RBNode<K, V>): RBNode<K, V>? {
@@ -126,39 +125,39 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
         }
     }
 
-    override fun balanceAfterDelete(curNode: RBNode<K, V>) {
-        return
-    }
-
-    override fun delete(key: K) {
-        val nodeToDelete = findNodeByKey(key)
-
+    private fun balanceAfterDelete(curNode: RBNode<K, V>) {
+        var nodeToDelete = curNode
         val child = when {
-            nodeToDelete?.rightChild != null -> nodeToDelete.rightChild
-            nodeToDelete?.leftChild != null -> nodeToDelete.leftChild
+            nodeToDelete.rightChild != null -> nodeToDelete.rightChild
+            nodeToDelete.leftChild != null -> nodeToDelete.leftChild
             else -> null
         }
 
         child?.parent = nodeToDelete
 
-        if(nodeToDelete?.color == Color.RED) {
-            deleteNode(key)
+        if(nodeToDelete.color == Color.RED) {
+            deleteNode(nodeToDelete.key)
             child?.leftChild?.parent = child
             return
         }
 
-        if(nodeToDelete?.color == Color.BLACK && child?.color == Color.RED) {
-            deleteNode(key)
+        if(nodeToDelete.color == Color.BLACK && child?.color == Color.RED) {
+            deleteNode(nodeToDelete.key)
             child.leftChild?.parent = child
             child.color = Color.BLACK
             return
         }
 
-        if(nodeToDelete?.color == Color.BLACK && child?.color == Color.BLACK) {
-            deleteNode(key)
+        if(nodeToDelete.color == Color.BLACK && child?.color == Color.BLACK) {
+            deleteNode(nodeToDelete.key)
             child.leftChild?.parent = child
             deleteCase1(child)
         }
+    }
+
+    override fun delete(key: K) {
+        val nodeToDelete = findNodeByKey(key)
+        nodeToDelete?.let { balance(nodeToDelete, false) }
     }
 
     private fun deleteCase1(node: RBNode<K, V>?) {
@@ -241,14 +240,6 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
             if (parent != null) rotateRight(parent, parent.parent)
         }
     }
-
-    //ЭТУ ФУНКЦИЮ НЕ КОПИРУЕМ, ОНА ДЕБАЖНАЯ
-    fun findRelatives(key: K) {
-        val node = findNodeByKey(key)
-        println("$key left is ${node?.leftChild?.key}")
-        println("$key right is ${node?.rightChild?.key}")
-        println("$key color is ${node?.color}")
-    }
 }
 
 fun main(){
@@ -261,11 +252,8 @@ fun main(){
     tree.insert(26, "hi")
     tree.insert(27, "hi")
 
-    tree.delete(22)
-    tree.findRelatives(27)
+    //tree.delete(22)
+    //tree.findRelatives(27)
 
-    val myList = tree.preorderTraversal()
-    for (item in myList) {
-        print("$item ")
-    }
+    tree.inorderTraversal()
 }

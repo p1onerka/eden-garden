@@ -122,7 +122,7 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
         return findNodeByKey(key)?.value
     }
 
-    private fun findNodeByKey(key: K): someNode? {
+    protected fun findNodeByKey(key: K): someNode? {
         var curNode: someNode? = root ?: return null
         while (curNode != null) {
             curNode = when {
@@ -143,7 +143,7 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
         }
     }
 
-    fun preorderTraversal(): List<K> {
+    fun preorderTraverse(): List<K> {
         val listOfNodes = mutableListOf<someNode>()
         traverse(root, listOfNodes)
         val listOfKeys = mutableListOf<K>()
@@ -158,12 +158,29 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
             traverse(curNode.rightChild, listOfNodes)
         }
     }
+
+    fun inorderTraversal() {
+        val count = inorderTraversalRecursive(root, "", 0)
+    }
+
+    protected fun inorderTraversalRecursive(node: someNode?, prefix: String, count: Int): Int {
+        var counter = count
+        if (node != null) {
+            if (node.leftChild != null) {
+                counter += inorderTraversalRecursive(node.leftChild, "$prefix  ", counter)
+            }
+            println("$prefix${node.key}")
+            if (node.rightChild != null) {
+                counter += inorderTraversalRecursive(node.rightChild, "$prefix  ", counter)
+            }
+        }
+        return 1
+    }
+
 }
 
 abstract class balancedTree<K: Comparable<K>, V, someNode: abstractNode<K, V, someNode>>: abstractTree<K, V, someNode>() {
-    protected abstract fun balanceAfterInsert(curNode: someNode)
-
-    protected abstract fun balanceAfterDelete(curNode: someNode)
+    protected abstract fun balance(curNode: someNode, isAfterInsert: Boolean = true)
 
     protected open fun rotateRight(node: someNode, parentNode:  someNode?) {
         val tempNode = node.leftChild ?: throw IllegalArgumentException("Node must have left child for right rotation")
@@ -176,7 +193,7 @@ abstract class balancedTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
         val tempNode = node.rightChild ?: throw IllegalArgumentException("Node must have right child for left rotation")
         node.rightChild = tempNode.leftChild
         tempNode.leftChild = node
-        moveParentNode(node, parentNode,tempNode)
+        moveParentNode(node, parentNode, tempNode)
     }
 }
 
@@ -197,7 +214,7 @@ fun main() {
     tree.insert(10, "hi")
     tree.delete(7)
 //    tree.printNode(8)
-    val myList = tree.preorderTraversal()
+    val myList = tree.preorderTraverse()
     for (item in myList) {
         print("$item ")
     }
