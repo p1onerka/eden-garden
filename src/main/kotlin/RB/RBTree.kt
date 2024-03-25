@@ -12,9 +12,7 @@ class RBNode<K : Comparable<K>, V>(key: K, value: V): abstractNode<K, V, RBNode<
 }
 
 class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
-    override fun createNewNode(key: K, value: V): RBNode<K, V> {
-        return RBNode(key, value)
-    }
+    override fun createNewNode(key: K, value: V): RBNode<K, V> = RBNode(key, value)
 
     override fun insert(key: K, value: V) {
         val insertedNode = insertNode(key, value) ?: throw IllegalArgumentException("Nothing to insert")
