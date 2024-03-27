@@ -180,6 +180,21 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
         }
         return 1
     }
+    private fun recursivePrint(prefix: String, node: someNode?, isLeft: Boolean) {
+        if (node == null) {
+            return
+        }
+        println("$prefix└──${node.key}")
+        var newPrefix = "$prefix    "
+        if (isLeft) {
+            newPrefix = "$prefix│   "
+        }
+        recursivePrint(newPrefix, node.leftChild, true)
+        recursivePrint(newPrefix, node.rightChild, false)
+    }
+    fun print() {
+        recursivePrint("", root, false)
+    }
 
 }
 
@@ -207,27 +222,19 @@ class BSTree<K : Comparable<K>, V> : abstractTree<K, V, BSNode<K, V>>() {
 
 fun main() {
     val tree = BSTree<Int, Any>()
-    tree.insert(7, "hi")
-    tree.insert(11, "hi")
-    tree.insert(5, "hi")
-    tree.insert(1, "hi")
+    tree.insert(70, "hi")
+    tree.insert(11000, "hi")
+    tree.insert(50, "hi")
+    tree.insert(1000, "hi")
     tree.insert(6, "hi")
-    tree.insert(9, "hi")
-    tree.insert(12, "hi")
-    tree.insert(8, "hi")
-    tree.insert(10, "hi")
-    tree.delete(7)
-//    tree.printNode(8)
-    val myList = tree.preorderTraverse()
-    for (item in myList) {
-        print("$item ")
-    }
-//    tree.insert(4, "hi")
-//    tree.insert(2, "bye")
-//    tree.insert(6, "xo")
-//    tree.insert(5, "del me")
-//    tree.insert(7, "suck")
-//    tree.delete(6)
-//    tree.printNode(6)
-//    tree.findNodeByKey(4)
+    tree.insert(9000, "hi")
+    tree.insert(1200000000, "hi")
+    tree.insert(8000, "hi")
+    tree.insert(1, "hi")
+    tree.print()
+//    val myList = tree.preorderTraverse()
+//    for (item in myList) {
+//        print("$item ")
+//    }
+
 }
