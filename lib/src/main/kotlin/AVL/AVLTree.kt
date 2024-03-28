@@ -19,11 +19,26 @@ class AVLTree<K : Comparable<K>, V>: balancedTree<K, V, AVLNode<K, V>>() {
 
     /* deletes a node & calls balancing after deletion */
     override fun delete(key: K) {
-        val deletedNodeParent = deleteNode(key)
-        /* if nothing was added or tree is empty, there's no need to balance it */
-        deletedNodeParent?.let { balance(it) }
+        val nodeToDelete = findNodeByKey(key)
+        if (nodeToDelete != null) {
+            val deletedNodeParent = findParent(nodeToDelete)
+            val newNode = deleteNode(key)
+            /* deleting a leaf */
+            if (newNode == null) {
+                deletedNodeParent?.let { balance(it) }
+            }
+            /* deleting a node with 1 child */
+            else if (nodeToDelete.leftChild == null || nodeToDelete.rightChild == null) {
+                balance(newNode)
+            }
+            /* deleting a node with 2 children */
+            else {
+                val newNodeParent = findMinNodeInRight(newNode.rightChild)
+                if (newNodeParent != null) balance(newNodeParent)
+                else balance(newNode)
+            }
+        }
     }
-
     private fun getHeight(node: AVLNode<K, V>?): Int {
         return node?.height ?: 0
     }
@@ -74,19 +89,17 @@ class AVLTree<K : Comparable<K>, V>: balancedTree<K, V, AVLNode<K, V>>() {
     }
 }
 fun main() {
-    var avl = AVLTree<Int, Any>()
-    avl.insert(100, 2)
-    avl.insert(150, 2)
-    avl.insert(95, 2)
-    avl.insert(80, 2)
-    avl.insert(125, 2)
-    avl.insert(200, 2)
-    avl.insert(135, 2)
-    avl.delete(95)
-    avl.delete(80)
-    avl.insert(107, 2)
-    avl.insert(99, 2)
-    val myList = avl.preorderTraverse()
+    val tree = AVLTree<Int, String>()
+    tree.insert(3, "Xenia")
+    tree.insert(2, "Sofa")
+    tree.insert(5, "Sonya")
+    tree.insert(1, "Kotlin")
+    tree.insert(4, "Python")
+    tree.insert(7, "C")
+    tree.insert(6, "Rust")
+
+    tree.delete(3)
+    val myList = tree.preorderTraverse()
     for (item in myList) {
         print("$item ")
     }

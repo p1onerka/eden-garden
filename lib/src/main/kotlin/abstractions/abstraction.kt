@@ -111,7 +111,7 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
     }
 
     /* finds minimal node in a right subtree */
-    private fun findMinNodeInRight(subtree: someNode?): someNode? {
+    protected fun findMinNodeInRight(subtree: someNode?): someNode? {
         var minNode = subtree
         while (true) {
             minNode = minNode?.leftChild ?: break
@@ -147,15 +147,15 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
         }
     }
 
-    fun preorderTraverse(): List<K> {
-        val listOfNodes = mutableListOf<someNode>()
-        traverse(root, listOfNodes)
-        val listOfKeys = mutableListOf<K>()
-        listOfNodes.forEach { listOfKeys.add(it.key) }
-        return listOfKeys
-    }
+//    fun preorderTraverse(): List<K> {
+//        val listOfNodes = mutableListOf<someNode>()
+//        traverse(root, listOfNodes)
+//        val listOfKeys = mutableListOf<K>()
+//        listOfNodes.forEach { listOfKeys.add(it.key) }
+//        return listOfKeys
+//    }
 
-    private fun traverse(curNode: someNode?, listOfNodes: MutableList<someNode>) {
+    protected fun traverse(curNode: someNode?, listOfNodes: MutableList<someNode>) {
         if(curNode != null) {
             listOfNodes.add(curNode)
             traverse(curNode.leftChild, listOfNodes)
@@ -218,6 +218,13 @@ abstract class balancedTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
 
 class BSTree<K : Comparable<K>, V> : abstractTree<K, V, BSNode<K, V>>() {
     override fun createNewNode(key: K, value: V): BSNode<K, V> = BSNode(key, value)
+    fun preorderTraverse(): List<K> {
+        val listOfNodes = mutableListOf<BSNode<K, V>>()
+        traverse(root, listOfNodes)
+        val listOfKeys = mutableListOf<K>()
+        listOfNodes.forEach { listOfKeys.add(it.key) }
+        return listOfKeys
+    }
 }
 
 fun main() {
@@ -231,7 +238,7 @@ fun main() {
     tree.insert(1200000000, "hi")
     tree.insert(8000, "hi")
     tree.insert(1, "hi")
-    tree.print()
+//    tree.print()
 //    val myList = tree.preorderTraverse()
 //    for (item in myList) {
 //        print("$item ")
