@@ -27,3 +27,12 @@ jobs:
 
       - name: Run autotests
         run: ./gradlew test
+
+      - name: Run Test Coverage
+        run: ./gradlew jacocoTestReport
+
+      - name: Jacoco Test Coverage Report
+        uses: cicirello/jacoco-badge-generator@v2.8.0
+        with:
+          generate-branches-badge: true
+          jacoco-csv-file: lib/build/jacoco/report.csv
