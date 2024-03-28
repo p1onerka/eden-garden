@@ -14,10 +14,9 @@ class AVLTreeTest {
         tree.insert(4,"Sonya")
         tree.insert(1,"Xenia")
 
-        val currentlyValue = tree.find(2)
         val expectedValue = "Sofa"
-
-        assertEquals(expectedValue, currentlyValue)
+        val actualValue = tree.find(2)
+        assertEquals(expectedValue, actualValue)
     }
 
     @Test
@@ -29,8 +28,8 @@ class AVLTreeTest {
         tree.insert(4,"trees")
 
         val expectedKeysAndHeights = listOf(Pair(2, 3), Pair(1, 1), Pair(3, 2), Pair(4, 1))
-        val currentKeysAndHeights: List<Pair<Int, Int>> = tree.preorderTraverse()
-        assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
+        val actualKeysAndHeights: List<Pair<Int, Int>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
 
     @Test
@@ -43,10 +42,10 @@ class AVLTreeTest {
         tree.insert(5, "Birds")
         tree.insert(2, "Happiness")
 
-        val currentValue = tree.find(2)
+        val actualValue = tree.find(2)
         val expectedValue = "Happiness"
 
-        assertEquals(expectedValue, currentValue)
+        assertEquals(expectedValue, actualValue)
     }
 
     @Test
@@ -61,8 +60,8 @@ class AVLTreeTest {
         tree.insert(1,"hey")
 
         val expectedKeysAndHeights = listOf(Pair(2, 3), Pair(0,2), Pair(1, 1), Pair(4, 2), Pair(3, 1), Pair(5, 1))
-        val currentKeysAndHeights = tree.preorderTraverse()
-        assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
+        val actualKeysAndHeights = tree.preorderTraverse()
+        assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
 
     @Test
@@ -76,8 +75,8 @@ class AVLTreeTest {
 
         tree.insert(3,"p")
         val expectedKeysAndHeights = listOf(Pair(2, 3), Pair(1,2), Pair(0, 1), Pair(4, 2), Pair(3, 1), Pair(5, 1))
-        val currentKeysAndHeights = tree.preorderTraverse()
-        assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
+        val actualKeysAndHeights = tree.preorderTraverse()
+        assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
 
     @Test
@@ -92,8 +91,8 @@ class AVLTreeTest {
         tree.insert(2,"333333")
 
         val expectedKeysAndHeights = listOf(Pair(3, 3), Pair(1, 2), Pair(0, 1), Pair(2, 1), Pair(4, 2), Pair(5, 1))
-        val currentKeysAndHeights = tree.preorderTraverse()
-        assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
+        val actualKeysAndHeights = tree.preorderTraverse()
+        assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
 
     @Test
@@ -108,8 +107,8 @@ class AVLTreeTest {
         tree.insert(4,"Eeeeee")
 
         val expectedKeysAndHeights = listOf(Pair(3, 3), Pair(1, 2), Pair(0, 1), Pair(2, 1), Pair(5, 2), Pair(4, 1))
-        val currentKeysAndHeights = tree.preorderTraverse()
-        assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
+        val actualKeysAndHeights = tree.preorderTraverse()
+        assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
 
     @Test
@@ -122,8 +121,8 @@ class AVLTreeTest {
         tree.delete(55)
 
         val expectedKeysAndHeights = listOf(Pair(33, 2), Pair(22, 1), Pair(44, 1))
-        val currentKeysAndHeights = tree.preorderTraverse()
-        assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
+        val actualKeysAndHeights = tree.preorderTraverse()
+        assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
 
     @Test
@@ -137,8 +136,8 @@ class AVLTreeTest {
         tree.delete(1)
 
         val expectedKeysAndHeights = listOf(Pair(3, 2), Pair(2, 1), Pair(4, 1))
-        val currentKeysAndHeights = tree.preorderTraverse()
-        assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
+        val actualKeysAndHeights = tree.preorderTraverse()
+        assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
 
     @Test
@@ -152,8 +151,8 @@ class AVLTreeTest {
         tree.delete(400)
 
         val expectedKeysAndHeights = listOf(Pair(200, 2), Pair(100, 1), Pair(300, 1))
-        val currentKeysAndHeights = tree.preorderTraverse()
-        assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
+        val actualKeysAndHeights = tree.preorderTraverse()
+        assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
 
     @Test
@@ -167,8 +166,8 @@ class AVLTreeTest {
         tree.delete(13)
 
         val expectedKeysAndHeights = listOf(Pair(15, 2), Pair(14, 1), Pair(16, 1))
-        val currentKeysAndHeights = tree.preorderTraverse()
-        assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
+        val actualKeysAndHeights = tree.preorderTraverse()
+        assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
 
     @Test
@@ -185,8 +184,8 @@ class AVLTreeTest {
         tree.delete(600)
 
         val expectedKeysAndHeights = listOf(Pair(33, 3), Pair(10, 2), Pair(0, 1), Pair(21, 1), Pair(43, 2), Pair(55, 1))
-        val currentKeysAndHeights = tree.preorderTraverse()
-        assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
+        val actualKeysAndHeights = tree.preorderTraverse()
+        assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
 
     @Test
@@ -203,8 +202,8 @@ class AVLTreeTest {
         tree.delete(505)
 
         val expectedKeysAndHeights = listOf(Pair(535, 3), Pair(525, 2), Pair(515, 1), Pair(555, 2), Pair(545, 1), Pair(565, 1))
-        val currentKeysAndHeights = tree.preorderTraverse()
-        assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
+        val actualKeysAndHeights = tree.preorderTraverse()
+        assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
 
     @Test
@@ -221,8 +220,8 @@ class AVLTreeTest {
         tree.delete(7111)
 
         val expectedKeysAndHeights = listOf(Pair(3111, 3), Pair(1111, 2), Pair(2111, 1), Pair(5111, 2), Pair(4111, 1), Pair(6111, 1))
-        val currentKeysAndHeights = tree.preorderTraverse()
-        assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
+        val actualKeysAndHeights = tree.preorderTraverse()
+        assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
 
     @Test
@@ -239,8 +238,8 @@ class AVLTreeTest {
         tree.delete(9)
 
         val expectedKeysAndHeights = listOf(Pair(99999, 3), Pair(999, 2), Pair(99, 1), Pair(9999, 1), Pair(999999, 2), Pair(9999999, 1))
-        val currentKeysAndHeights = tree.preorderTraverse()
-        assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
+        val actualKeysAndHeights = tree.preorderTraverse()
+        assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
 
     @Test
@@ -257,8 +256,8 @@ class AVLTreeTest {
         tree.delete(541)
 
         val expectedKeysAndHeights = listOf(Pair(321, 3), Pair(101, 2), Pair(211, 1), Pair(651, 2), Pair(431, 1), Pair(761, 1))
-        val currentKeysAndHeights = tree.preorderTraverse()
-        assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
+        val actualKeysAndHeights = tree.preorderTraverse()
+        assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
 
     @Test
@@ -275,8 +274,8 @@ class AVLTreeTest {
         tree.delete(385)
 
         val expectedKeysAndHeights = listOf(Pair(484, 3), Pair(286, 2), Pair(187, 1), Pair(682, 2), Pair(583, 1), Pair(781, 1))
-        val currentKeysAndHeights = tree.preorderTraverse()
-        assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
+        val actualKeysAndHeights = tree.preorderTraverse()
+        assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
 
     @Test
@@ -291,8 +290,8 @@ class AVLTreeTest {
         tree.delete(4)
 
         val expectedKeysAndHeights = listOf(Pair(2, 3), Pair(1, 1), Pair(5, 2), Pair(3, 1))
-        val currentKeysAndHeights = tree.preorderTraverse()
-        assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
+        val actualKeysAndHeights = tree.preorderTraverse()
+        assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
 
     @Test
@@ -305,7 +304,7 @@ class AVLTreeTest {
 
         tree.delete(44)
         val expectedKeysAndHeights = listOf(Pair(22, 2), Pair(11, 1), Pair(33, 1))
-        val currentKeysAndHeights = tree.preorderTraverse()
-        assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
+        val actualKeysAndHeights = tree.preorderTraverse()
+        assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
 }
