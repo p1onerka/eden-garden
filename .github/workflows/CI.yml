@@ -25,14 +25,5 @@ jobs:
       - name: Build with Gradle Wrapper
         run: ./gradlew build
 
-  tests:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
-
-      - name: Build with Gradle Wrapper
-        run: ./gradlew build
-
       - name: Run autotests
         run: ./gradlew test
