@@ -12,11 +12,10 @@ class RBTreeTest {
         tree.insert(2,"Sofa")
         tree.insert(4,"Sonya")
         tree.insert(1,"Xenia")
-
-        val currentlyValue = tree.find(2)
+        
         val expectedValue = "Sofa"
-
-        assertEquals(expectedValue, currentlyValue)
+        val actuallyValue = tree.find(2)
+        assertEquals(expectedValue, actuallyValue)
     }
 
     @Test
@@ -28,8 +27,8 @@ class RBTreeTest {
         tree.insert(4,"trees")
 
         val expectedKeysAndColors = listOf(Pair(2, Color.BLACK), Pair(1, Color.BLACK), Pair(3, Color.BLACK), Pair(4, Color.RED))
-        val currentKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
-        assertEquals(expectedKeysAndColors, currentKeysAndColors)
+        val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
     }
 
     @Test
@@ -42,10 +41,9 @@ class RBTreeTest {
         tree.insert(5, "Birds")
         tree.insert(2, "Happiness")
 
-        val currentValue = tree.find(2)
+        val actualValue = tree.find(2)
         val expectedValue = "Happiness"
-
-        assertEquals(expectedValue, currentValue)
+        assertEquals(expectedValue, actualValue)
     }
 
     //case 1: insertedNode is root
@@ -55,8 +53,8 @@ class RBTreeTest {
         tree.insert(8, "Infinity")
 
         val expectedKeysAndColors = listOf(Pair(8, Color.BLACK))
-        val currentKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
-        assertEquals(expectedKeysAndColors, currentKeysAndColors)
+        val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
     }
 
     //case 2: parent of insertedNode is black
@@ -67,12 +65,12 @@ class RBTreeTest {
         tree.insert(8, "Cloudy")
         tree.insert(14, "Stormy")
         tree.insert(15, "Hazy")
-
         tree.insert(9, "Rainy")
+
         val expectedKeysAndColors = listOf(Pair(10, Color.BLACK), Pair(8, Color.BLACK),
             Pair(9, Color.RED), Pair(14, Color.BLACK), Pair(15, Color.RED))
-        val currentKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
-        assertEquals(expectedKeysAndColors, currentKeysAndColors)
+        val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
     }
 
     //case 3: uncle is non-null and red (so both uncle and parent are red)
@@ -82,12 +80,11 @@ class RBTreeTest {
         tree.insert(100, "Red")
         tree.insert(55, "Orange")
         tree.insert(111, "Yellow")
-
         tree.insert(33, "Green")
 
         val expectedKeysAndColors = listOf(Pair(100, Color.BLACK), Pair(55, Color.BLACK), Pair(33, Color.RED), Pair(111, Color.BLACK))
-        val currentKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
-        assertEquals(expectedKeysAndColors, currentKeysAndColors)
+        val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
     }
 
     /* case 4: uncle is black, parent is red; grandparent, parent and node form a "triangle"
@@ -103,12 +100,11 @@ class RBTreeTest {
         val tree = RBTree<Int, String>()
         tree.insert(50, "Apple")
         tree.insert(30, "Banana")
-
         tree.insert(40, "Grape")
 
         val expectedKeysAndColors = listOf(Pair(40, Color.BLACK), Pair(30, Color.RED), Pair(50, Color.RED))
-        val currentKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
-        assertEquals(expectedKeysAndColors, currentKeysAndColors)
+        val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
     }
 
     @Test
@@ -118,12 +114,12 @@ class RBTreeTest {
         tree.insert(34, "Cookies")
         tree.insert(78, "Croissants")
         tree.insert(100, "Candy")
-
         tree.insert(95, "Creme brulee")
+
         val expectedKeysAndColors = listOf(Pair(49, Color.BLACK), Pair(34, Color.BLACK),
             Pair(95, Color.BLACK), Pair(78, Color.RED), Pair(100, Color.RED))
-        val currentKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
-        assertEquals(expectedKeysAndColors, currentKeysAndColors)
+        val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
     }
 
     /* case 5: uncle is black, parent is red; grandparent, parent and node form a "line"
@@ -139,11 +135,11 @@ class RBTreeTest {
         val tree = RBTree<Int, String>()
         tree.insert(900, "folklore")
         tree.insert(90, "evermore")
-
         tree.insert(9, "midnights")
+
         val expectedKeysAndColors = listOf(Pair(90, Color.BLACK), Pair(9, Color.RED), Pair(900, Color.RED))
-        val currentKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
-        assertEquals(expectedKeysAndColors, currentKeysAndColors)
+        val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
     }
 
     @Test
@@ -153,12 +149,12 @@ class RBTreeTest {
         tree.insert(33, "the trees")
         tree.insert(3333, "tell us")
         tree.insert(33333, "their stories")
-
         tree.insert(333333, "?")
+
         val expectedKeysAndColors = listOf(Pair(333, Color.BLACK), Pair(33, Color.BLACK),
             Pair(33333, Color.BLACK), Pair(3333, Color.RED), Pair(333333, Color.RED))
-        val currentKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
-        assertEquals(expectedKeysAndColors, currentKeysAndColors)
+        val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
     }
 }
 
