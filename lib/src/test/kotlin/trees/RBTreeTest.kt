@@ -1,6 +1,5 @@
 package trees
 
-import AVL.AVLTree
 import RB.Color
 import RB.RBTree
 import org.junit.jupiter.api.Assertions.assertEquals
