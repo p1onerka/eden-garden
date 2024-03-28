@@ -64,8 +64,30 @@ class AVLTree<K : Comparable<K>, V>: balancedTree<K, V, AVLNode<K, V>>() {
         updateHeight(node)
         //updateHeight(tempNode)
     }
+    fun preorderTraverse(): List<Pair<K, Int>> {
+        val listOfNodes = mutableListOf<AVLNode<K, V>>()
+        println("${root?.key}")
+        traverse(root, listOfNodes)
+        val listOfKeysAndHeights = mutableListOf<Pair<K, Int>>()
+        listOfNodes.forEach { listOfKeysAndHeights.add(Pair(it.key, it.height)) }
+        return listOfKeysAndHeights
+    }
 }
 fun main() {
     var avl = AVLTree<Int, Any>()
-    avl.insert(1, 2)
+    avl.insert(100, 2)
+    avl.insert(150, 2)
+    avl.insert(95, 2)
+    avl.insert(80, 2)
+    avl.insert(125, 2)
+    avl.insert(200, 2)
+    avl.insert(135, 2)
+    avl.delete(95)
+    avl.delete(80)
+    avl.insert(107, 2)
+    avl.insert(99, 2)
+    val myList = avl.preorderTraverse()
+    for (item in myList) {
+        print("$item ")
+    }
 }

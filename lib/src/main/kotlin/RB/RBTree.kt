@@ -8,7 +8,6 @@ enum class Color {
 
 class RBNode<K : Comparable<K>, V>(key: K, value: V): abstractNode<K, V, RBNode<K, V>>(key, value) {
     var color: Color = Color.RED
-    //var parent: RBNode<K, V>? = null
 }
 
 class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
@@ -65,7 +64,6 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
         grandparent.color = Color.RED
         if ((insertedNode == parent.leftChild)&&(parent == grandparent.leftChild)) {
             rotateRight(grandparent, findParent(grandparent))
-
         }
         else {
             rotateLeft(grandparent, findParent(grandparent))
