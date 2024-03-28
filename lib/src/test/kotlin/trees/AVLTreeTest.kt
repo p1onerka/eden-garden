@@ -8,7 +8,7 @@ import kotlin.test.Test
 class AVLTreeTest {
 
     @Test
-    fun searchNodeByKeyTest() {
+    fun `find node by key`() {
         val tree = AVLTree<Int, String>()
         tree.insert(2,"Sofa")
         tree.insert(4,"Sonya")
@@ -21,7 +21,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun traverseTreeTest() {
+    fun  `traverse avl tree`() {
         val tree = AVLTree<Int, String>()
         tree.insert(3,"i")
         tree.insert(2,"love")
@@ -48,8 +48,9 @@ class AVLTreeTest {
 
         assertEquals(expectedValue, currentValue)
     }
+
     @Test
-    fun `insertion left-left`() {
+    fun `insert node and perform right rotation`() {
         val tree = AVLTree<Int, String>()
         tree.insert(4,"hi")
         tree.insert(2,"hi")
@@ -65,7 +66,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `insertion left-right`() {
+    fun `insert node and perform left-right rotation`() {
         val tree = AVLTree<Int, String>()
         tree.insert(4,"y")
         tree.insert(1,"n")
@@ -80,7 +81,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `insertion right-left`() {
+    fun `insert node and perform right-left rotation`() {
         val tree = AVLTree<Int, String>()
         tree.insert(1,"3")
         tree.insert(0,"33")
@@ -96,7 +97,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `insertion right-right`() {
+    fun `insert node and perform left rotation`() {
         val tree = AVLTree<Int, String>()
         tree.insert(1,"Shine")
         tree.insert(0,"Bright")
@@ -112,26 +113,26 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `delete_childless_right when left-with-left-child_case`() {
+    fun `delete right node with no children and perform right rotation`() {
         val tree = AVLTree<Int, String>()
-        tree.insert(4,"Xenia")
-        tree.insert(3,"Sofa")
-        tree.insert(5,"Sonya")
-        tree.insert(2,"Iakov")
-        tree.delete(5)
+        tree.insert(44,"this")
+        tree.insert(33,"is")
+        tree.insert(55,"me")
+        tree.insert(22,"trying")
+        tree.delete(55)
 
-        val expectedKeysAndHeights = listOf(Pair(3, 2), Pair(2, 1), Pair(4, 1))
+        val expectedKeysAndHeights = listOf(Pair(33, 2), Pair(22, 1), Pair(44, 1))
         val currentKeysAndHeights = tree.preorderTraverse()
         assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
     }
 
     @Test
-    fun `delete childless left when right with left child`() {
+    fun `delete left node with no children and perform left-right rotation`() {
         val tree = AVLTree<Int, String>()
-        tree.insert(2,"Xenia")
-        tree.insert(1,"Sofa")
-        tree.insert(4,"Sonya")
-        tree.insert(3,"Iakov")
+        tree.insert(2,"Welcome")
+        tree.insert(1,"to")
+        tree.insert(4,"New")
+        tree.insert(3,"York")
 
         tree.delete(1)
 
@@ -141,139 +142,139 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `delete childless right when left with right child`() {
+    fun `delete right node with no children and perform left-right rotation`() {
         val tree = AVLTree<Int, String>()
-        tree.insert(3,"Xenia")
-        tree.insert(1,"Sofa")
-        tree.insert(4,"Sonya")
-        tree.insert(2,"Iakov")
+        tree.insert(300,"Californication")
+        tree.insert(100,"Otherside")
+        tree.insert(400,"Dark Necessities")
+        tree.insert(200,"Encore")
 
-        tree.delete(4)
+        tree.delete(400)
 
-        val expectedKeysAndHeights = listOf(Pair(2, 2), Pair(1, 1), Pair(3, 1))
+        val expectedKeysAndHeights = listOf(Pair(200, 2), Pair(100, 1), Pair(300, 1))
         val currentKeysAndHeights = tree.preorderTraverse()
         assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
     }
 
     @Test
-    fun `delite childless left when right with right child`() {
+    fun `delete left node with no children and perform left rotation`() {
         val tree = AVLTree<Int, String>()
-        tree.insert(4,"Xenia")
-        tree.insert(3,"Sofa")
-        tree.insert(5,"Sonya")
-        tree.insert(6,"Iakov")
+        tree.insert(14,"Taylor Swift")
+        tree.insert(13,"Harry Styles")
+        tree.insert(15,"Lana Del Rey")
+        tree.insert(16,"Olivia Rodrigo")
 
-        tree.delete(3)
+        tree.delete(13)
 
-        val expectedKeysAndHeights = listOf(Pair(5, 2), Pair(4, 1), Pair(6, 1))
+        val expectedKeysAndHeights = listOf(Pair(15, 2), Pair(14, 1), Pair(16, 1))
         val currentKeysAndHeights = tree.preorderTraverse()
         assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
     }
 
     @Test
-    fun `left-right rotation after delete node with one child`() {
+    fun `delete node with one child and perform left-right rotation`() {
         val tree = AVLTree<Int, String>()
-        tree.insert(4,"Xenia")
-        tree.insert(6,"Sofa")
-        tree.insert(1,"Sonya")
-        tree.insert(3,"Iakov")
-        tree.insert(0,"Sofa")
-        tree.insert(5,"Sonya")
-        tree.insert(2,"Iakov")
+        tree.insert(43,"I")
+        tree.insert(600,"remember")
+        tree.insert(10,"it")
+        tree.insert(33,"all")
+        tree.insert(0,"too")
+        tree.insert(55,"well")
+        tree.insert(21,"...")
 
-        tree.delete(6)
+        tree.delete(600)
 
-        val expectedKeysAndHeights = listOf(Pair(3, 3), Pair(1, 2), Pair(0, 1), Pair(2, 1), Pair(4, 2), Pair(5, 1))
+        val expectedKeysAndHeights = listOf(Pair(33, 3), Pair(10, 2), Pair(0, 1), Pair(21, 1), Pair(43, 2), Pair(55, 1))
         val currentKeysAndHeights = tree.preorderTraverse()
         assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
     }
 
     @Test
-    fun `right-left rotation after delete node with one child`() {
+    fun `delete node with one child and perform right-left rotation`() {
         val tree = AVLTree<Int, String>()
-        tree.insert(2,"Xenia")
-        tree.insert(0,"Sofa")
-        tree.insert(1,"Sonya")
-        tree.insert(5,"Iakov")
-        tree.insert(6,"Sofa")
-        tree.insert(3,"Sonya")
-        tree.insert(4,"Iakov")
+        tree.insert(525,"Tender")
+        tree.insert(505,"Is")
+        tree.insert(515,"the")
+        tree.insert(555,"Night")
+        tree.insert(565,"by")
+        tree.insert(535,"F. Scott")
+        tree.insert(545,"Fitzgerald")
 
-        tree.delete(0)
+        tree.delete(505)
 
-        val expectedKeysAndHeights = listOf(Pair(3, 3), Pair(2, 2), Pair(1, 1), Pair(5, 2), Pair(4, 1), Pair(6, 1))
+        val expectedKeysAndHeights = listOf(Pair(535, 3), Pair(525, 2), Pair(515, 1), Pair(555, 2), Pair(545, 1), Pair(565, 1))
         val currentKeysAndHeights = tree.preorderTraverse()
         assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
     }
 
     @Test
-    fun `right rotation after delete node with one child`() {
+    fun `delete node with one child and perform right rotation`() {
         val tree = AVLTree<Int, String>()
-        tree.insert(5,"Xenia")
-        tree.insert(3,"Sofa")
-        tree.insert(7,"Sonya")
-        tree.insert(1,"Iakov")
-        tree.insert(4,"Sofa")
-        tree.insert(6,"Sonya")
-        tree.insert(2,"Iakov")
+        tree.insert(5111,"Coffee")
+        tree.insert(3111,"Tea")
+        tree.insert(7111,"Lemonade")
+        tree.insert(1111,"Coke")
+        tree.insert(4111,"Juice")
+        tree.insert(6111,"Hot chocolate")
+        tree.insert(2111,"Water")
 
-        tree.delete(7)
+        tree.delete(7111)
 
-        val expectedKeysAndHeights = listOf(Pair(3, 3), Pair(1, 2), Pair(2, 1), Pair(5, 2), Pair(4, 1), Pair(6, 1))
+        val expectedKeysAndHeights = listOf(Pair(3111, 3), Pair(1111, 2), Pair(2111, 1), Pair(5111, 2), Pair(4111, 1), Pair(6111, 1))
         val currentKeysAndHeights = tree.preorderTraverse()
         assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
     }
 
     @Test
-    fun `left rotation after delete node with one child`() {
+    fun `delete node with one child and perform left rotation`() {
         val tree = AVLTree<Int, String>()
-        tree.insert(3, "Xenia")
-        tree.insert(1, "Sofa")
-        tree.insert(5, "Sonya")
-        tree.insert(2, "Iakov")
-        tree.insert(4, "Sofa")
-        tree.insert(6, "Sonya")
-        tree.insert(7, "Iakov")
+        tree.insert(999, "Dandelions")
+        tree.insert(9, "Wisteria")
+        tree.insert(99999, "Ivy")
+        tree.insert(99, "Willow")
+        tree.insert(9999, "Daises")
+        tree.insert(999999, "Chamomiles")
+        tree.insert(9999999, "Roses")
 
-        tree.delete(1)
+        tree.delete(9)
 
-        val expectedKeysAndHeights = listOf(Pair(5, 3), Pair(3, 2), Pair(2, 1), Pair(4, 1), Pair(6, 2), Pair(7, 1))
+        val expectedKeysAndHeights = listOf(Pair(99999, 3), Pair(999, 2), Pair(99, 1), Pair(9999, 1), Pair(999999, 2), Pair(9999999, 1))
         val currentKeysAndHeights = tree.preorderTraverse()
         assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
     }
 
     @Test
-    fun `left rotation after delete node with two children`() {
+    fun `delete node with two children and perform right rotation`() {
         val tree = AVLTree<Int, String>()
-        tree.insert(5, "Xenia")
-        tree.insert(3, "Sofa")
-        tree.insert(6, "Sonya")
-        tree.insert(1, "Kotlin")
-        tree.insert(4, "Python")
-        tree.insert(7, "C")
-        tree.insert(2, "Rust")
+        tree.insert(541, "Paris")
+        tree.insert(321, "London")
+        tree.insert(651, "Los Angeles")
+        tree.insert(101, "Saint Petersburg")
+        tree.insert(431, "Prague")
+        tree.insert(761, "Vienna")
+        tree.insert(211, "Rome")
 
-        tree.delete(5)
+        tree.delete(541)
 
-        val expectedKeysAndHeights = listOf(Pair(3, 3), Pair(1, 2), Pair(2, 1), Pair(6, 2), Pair(4, 1), Pair(7, 1))
+        val expectedKeysAndHeights = listOf(Pair(321, 3), Pair(101, 2), Pair(211, 1), Pair(651, 2), Pair(431, 1), Pair(761, 1))
         val currentKeysAndHeights = tree.preorderTraverse()
         assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
     }
 
     @Test
-    fun `delete node with two children and replacing him by his child`() {
+    fun `delete node with two children and perform right-left rotation`() {
         val tree = AVLTree<Int, String>()
-        tree.insert(3, "Xenia")
-        tree.insert(2, "Sofa")
-        tree.insert(5, "Sonya")
-        tree.insert(1, "Kotlin")
-        tree.insert(4, "Python")
-        tree.insert(7, "C")
-        tree.insert(6, "Rust")
+        tree.insert(385, "Iron Man")
+        tree.insert(286, "Thor")
+        tree.insert(583, "Hawkeye")
+        tree.insert(187, "Black Widow")
+        tree.insert(484, "Hulk")
+        tree.insert(781, "Captain America")
+        tree.insert(682, "and others")
 
-        tree.delete(3)
+        tree.delete(385)
 
-        val expectedKeysAndHeights = listOf(Pair(4, 3), Pair(2, 2), Pair(1, 1), Pair(6, 2), Pair(5, 1), Pair(7, 1))
+        val expectedKeysAndHeights = listOf(Pair(484, 3), Pair(286, 2), Pair(187, 1), Pair(682, 2), Pair(583, 1), Pair(781, 1))
         val currentKeysAndHeights = tree.preorderTraverse()
         assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
     }
@@ -281,9 +282,9 @@ class AVLTreeTest {
     @Test
     fun `delete node with two children and perform left rotation`() {
         val tree = AVLTree<Int, String>()
-        tree.insert(4, "Xenia")
-        tree.insert(2, "Sofa")
-        tree.insert(5, "Sonya")
+        tree.insert(4, "C")
+        tree.insert(2, "O'Caml")
+        tree.insert(5, "Rust")
         tree.insert(1, "Kotlin")
         tree.insert(3, "Python")
 
@@ -297,13 +298,13 @@ class AVLTreeTest {
     @Test
     fun `delete node with two children and perform left-right rotation`() {
         val tree = AVLTree<Int, String>()
-        tree.insert(3, "Xenia")
-        tree.insert(4, "Sofa")
-        tree.insert(1, "Sonya")
-        tree.insert(2, "Kotlin")
+        tree.insert(33, "Scene")
+        tree.insert(44, "after")
+        tree.insert(11, "credits")
+        tree.insert(22, "?")
 
-        tree.delete(4)
-        val expectedKeysAndHeights = listOf(Pair(2, 2), Pair(1, 1), Pair(3, 1))
+        tree.delete(44)
+        val expectedKeysAndHeights = listOf(Pair(22, 2), Pair(11, 1), Pair(33, 1))
         val currentKeysAndHeights = tree.preorderTraverse()
         assertEquals(expectedKeysAndHeights, currentKeysAndHeights)
     }
