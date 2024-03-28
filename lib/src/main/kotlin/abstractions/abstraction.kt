@@ -56,33 +56,39 @@ abstract class abstractTree<K: Comparable<K>, V, someNode: abstractNode<K, V, so
     }
 
     protected fun deleteNode(key: K): someNode? {
-
         val nodeToDelete = findNodeByKey(key)
         if ((nodeToDelete == null) || (root == null)) return null
-
         val parentNode = findParent(nodeToDelete)
-
-        when {
-            //case 1: node has no children
-            (nodeToDelete.leftChild == null && nodeToDelete.rightChild == null) -> moveParentNode(nodeToDelete, parentNode, null)
-
-            //case 2: node has 1 child
-            (nodeToDelete.leftChild == null || nodeToDelete.rightChild == null) -> {
-                if (nodeToDelete.leftChild == null) moveParentNode(nodeToDelete, parentNode, nodeToDelete.rightChild)
-                else moveParentNode(nodeToDelete, parentNode, nodeToDelete.leftChild)
+        /* no children case */
+        if (nodeToDelete.leftChild == null && nodeToDelete.rightChild == null) {
+            moveParentNode(nodeToDelete, parentNode, null)
+            /* new */
+            return null
+        }
+        /* 1 child case */
+        else if (nodeToDelete.leftChild == null || nodeToDelete.rightChild == null) {
+            if (nodeToDelete.leftChild == null) {
+                moveParentNode(nodeToDelete, parentNode, nodeToDelete.rightChild)
+                /* new */
+                return nodeToDelete.rightChild
             }
-
-            //case 3: node has 2 children
-            else -> {
-                val replacementNode = findMinNodeInRight(nodeToDelete.rightChild)
-                    ?: throw IllegalArgumentException ("Node with 2 children must have a right child")
-                moveParentNode(replacementNode, findParent(replacementNode), replacementNode.rightChild)
-                replacementNode.leftChild = nodeToDelete.leftChild
-                replacementNode.rightChild = nodeToDelete.rightChild
-                moveParentNode(nodeToDelete, parentNode, replacementNode)
+            else {
+                moveParentNode(nodeToDelete, parentNode, nodeToDelete.leftChild)
+                /* new */
+                return nodeToDelete.leftChild
             }
         }
-        return parentNode
+        /* 2 children case */
+        else {
+            val replacementNode = findMinNodeInRight(nodeToDelete.rightChild)
+                ?: throw IllegalArgumentException ("Node with 2 children must have a right child")
+            moveParentNode(replacementNode, findParent(replacementNode), replacementNode.rightChild)
+            replacementNode.leftChild = nodeToDelete.leftChild
+            replacementNode.rightChild = nodeToDelete.rightChild
+            moveParentNode(nodeToDelete, parentNode, replacementNode)
+            /* new */
+            return replacementNode
+        }
     }
 
     protected fun findParent(node: someNode): someNode? { // вродь работает
