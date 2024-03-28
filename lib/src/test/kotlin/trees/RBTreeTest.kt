@@ -7,7 +7,7 @@ import kotlin.test.Test
 
 class RBTreeTest {
     @Test
-    fun findNodeByKeyTest() {
+    fun `find node by key`() {
         val tree = RBTree<Int, String>()
         tree.insert(2,"Sofa")
         tree.insert(4,"Sonya")
@@ -19,7 +19,7 @@ class RBTreeTest {
     }
 
     @Test
-    fun traverseTreeTest() {
+    fun `traverse rb tree`() {
         val tree = RBTree<Int, String>()
         tree.insert(3,"i")
         tree.insert(2,"love")
@@ -32,7 +32,7 @@ class RBTreeTest {
     }
 
     @Test
-    fun `insert node with the same key`() {
+    fun `insert node with existing key`() {
         val tree = RBTree<Int, String>()
         tree.insert(1, "Kittens")
         tree.insert(2, "Sadness")
@@ -48,7 +48,7 @@ class RBTreeTest {
 
     //case 1: insertedNode is root
     @Test
-    fun `insert a root`() {
+    fun `insert root`() {
         val tree = RBTree<Int, String>()
         tree.insert(8, "Infinity")
 
@@ -156,5 +156,11 @@ class RBTreeTest {
         val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
         assertEquals(expectedKeysAndColors, actualKeysAndColors)
     }
+
+    @Test
+    fun `delete node with non-existing key`() {}
+
+    @Test
+    fun `delete node from an empty tree`() {}
 }
 

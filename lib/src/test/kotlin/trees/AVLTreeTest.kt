@@ -6,7 +6,6 @@ import kotlin.test.Test
 
 
 class AVLTreeTest {
-
     @Test
     fun `find node by key`() {
         val tree = AVLTree<Int, String>()
@@ -33,7 +32,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `insert node with the same key`() {
+    fun `insert node with existing key`() {
         val tree = AVLTree<Int, String>()
         tree.insert(1, "Kittens")
         tree.insert(2, "Sadness")
@@ -110,6 +109,12 @@ class AVLTreeTest {
         val actualKeysAndHeights = tree.preorderTraverse()
         assertEquals(expectedKeysAndHeights, actualKeysAndHeights)
     }
+
+    @Test
+    fun `delete node with non-existing key`() {}
+
+    @Test
+    fun `delete node from an empty tree`() {}
 
     @Test
     fun `delete right node with no children and perform right rotation`() {
