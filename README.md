@@ -1,6 +1,5 @@
 ## Table of contents
 - [About the project](#about-the-project)
-- [How to build](#how-to-build)
 - [How to use](#how-to-use)
 - [License](#license)
 - [Developers and contacts](#developers-and-contacts)
@@ -9,16 +8,7 @@
 
 This library allows you to use three types of binary search trees: simple, AVL and Red-Black tree. [AVL](https://en.wikipedia.org/wiki/AVL_tree) and [Red-Black](https://en.wikipedia.org/wiki/Red–black_tree) tree implement their natural balancing.
 
-
-## How to build
-To build this project run
-
-```bash
-  ./gradlew build
-```
 ## How to use
-To start implementing library install package.
-
 There are 4 public methods you can use for each tree:
 
 * `insert(key, value)`  inserts a node with such key and value. If a node with the same key already exists in the tree, old value is replaced with the new one. Note that key should be of Comparable type.
