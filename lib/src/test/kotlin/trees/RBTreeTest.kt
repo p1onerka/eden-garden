@@ -2,7 +2,6 @@ package trees
 
 import RB.Color
 import RB.RBTree
-import abstractions.BSTree
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
 
@@ -47,7 +46,6 @@ class RBTreeTest {
         assertEquals(expectedValue, actualValue)
     }
 
-    //case 1: insertedNode is root
     @Test
     fun `insert root`() {
         val tree = RBTree<Int, String>()
@@ -58,7 +56,6 @@ class RBTreeTest {
         assertEquals(expectedKeysAndColors, actualKeysAndColors)
     }
 
-    //case 2: parent of insertedNode is black
     @Test
     fun `insert a node with BLACK parent`() {
         val tree = RBTree<Int, String>()
@@ -74,7 +71,6 @@ class RBTreeTest {
         assertEquals(expectedKeysAndColors, actualKeysAndColors)
     }
 
-    //case 3: uncle is non-null and red (so both uncle and parent are red)
     @Test
     fun `insert a node with RED parent and RED uncle`() {
         val tree = RBTree<Int, String>()
@@ -182,7 +178,7 @@ class RBTreeTest {
     }
 
     @Test
-    fun `delete RED node with right child`() {
+    fun `delete RED node with two children (left subtree & right leaf)`() {
         val tree = RBTree<Int, String>()
         tree.insert(20, "")
         tree.insert(10, "")
@@ -194,6 +190,123 @@ class RBTreeTest {
 
         val expectedKeysAndColors = listOf(Pair(20, Color.BLACK), Pair(10, Color.BLACK),
             Pair(33, Color.RED), Pair(30, Color.BLACK), Pair(45, Color.BLACK))
+        val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
+    }
+
+    @Test
+    fun `delete RED node with no children`() {
+        val tree = RBTree<Int, String>()
+        tree.insert(20, "")
+        tree.insert(10, "")
+        tree.insert(40, "")
+        tree.insert(30, "")
+        tree.insert(45, "")
+        tree.insert(33, "")
+        tree.delete(33)
+
+        val expectedKeysAndColors = listOf(Pair(20, Color.BLACK), Pair(10, Color.BLACK),
+            Pair(40, Color.RED), Pair(30, Color.BLACK), Pair(45, Color.BLACK))
+        val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
+    }
+
+    @Test
+    fun `delete BLACK node with one right RED child`() {
+        val tree = RBTree<Int, String>()
+        tree.insert(20, "")
+        tree.insert(10, "")
+        tree.insert(40, "")
+        tree.insert(30, "")
+        tree.insert(45, "")
+        tree.insert(25, "")
+        tree.delete(30)
+
+        val expectedKeysAndColors = listOf(Pair(20, Color.BLACK), Pair(10, Color.BLACK),
+            Pair(40, Color.RED), Pair(25, Color.BLACK), Pair(45, Color.BLACK))
+        val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
+    }
+
+    @Test
+    fun `delete BLACK node with one left RED child`() {
+        val tree = RBTree<Int, String>()
+        tree.insert(20, "")
+        tree.insert(10, "")
+        tree.insert(40, "")
+        tree.insert(30, "")
+        tree.insert(45, "")
+        tree.insert(33, "")
+        tree.delete(30)
+
+        val expectedKeysAndColors = listOf(Pair(20, Color.BLACK), Pair(10, Color.BLACK),
+            Pair(40, Color.RED), Pair(33, Color.BLACK), Pair(45, Color.BLACK))
+        val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
+    }
+
+    @Test
+    fun `delete BLACK node with no children and RED sibling`() {
+        val tree = RBTree<Int, String>()
+        tree.insert(20, "")
+        tree.insert(10, "")
+        tree.insert(40, "")
+        tree.insert(30, "")
+        tree.insert(45, "")
+        tree.insert(33, "")
+        tree.delete(10)
+
+        val expectedKeysAndColors = listOf(Pair(40, Color.BLACK), Pair(30, Color.RED),
+            Pair(20, Color.BLACK), Pair(33, Color.BLACK), Pair(45, Color.BLACK))
+        val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
+    }
+
+    @Test
+    fun `delete BLACK node with two children (left subtree & right leaf)`() {
+        val tree = RBTree<Int, String>()
+        tree.insert(100, "")
+        tree.insert(80, "")
+        tree.insert(200, "")
+        tree.insert(60, "")
+        tree.insert(90, "")
+        tree.insert(65, "")
+        tree.delete(100)
+
+        val expectedKeysAndColors = listOf(Pair(80, Color.BLACK), Pair(60, Color.BLACK),
+            Pair(65, Color.RED), Pair(200, Color.BLACK), Pair(90, Color.RED))
+        val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
+    }
+
+    @Test
+    fun `delete left BLACK node with RED right child`() {
+        val tree = RBTree<Int, String>()
+        tree.insert(100, "")
+        tree.insert(80, "")
+        tree.insert(200, "")
+        tree.insert(60, "")
+        tree.insert(90, "")
+        tree.insert(88, "")
+        tree.delete(60)
+
+        val expectedKeysAndColors = listOf(Pair(100, Color.BLACK), Pair(88, Color.RED),
+            Pair(80, Color.BLACK), Pair(90, Color.BLACK), Pair(200, Color.BLACK))
+        val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
+    }
+
+    @Test
+    fun `delete BLACK node with no children and BLACK sibling`() {
+        val tree = RBTree<Int, String>()
+        tree.insert(111, "")
+        tree.insert(222, "")
+        tree.insert(88, "")
+        tree.insert(233, "")
+        tree.delete(233)
+        tree.delete(88)
+
+        val expectedKeysAndColors = listOf(Pair(111, Color.BLACK), Pair(222, Color.RED))
         val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
         assertEquals(expectedKeysAndColors, actualKeysAndColors)
     }
