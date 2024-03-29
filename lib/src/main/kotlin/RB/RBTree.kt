@@ -389,18 +389,18 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
 }
 
 fun main(){
-    val tree = RBTree<Int, String>()
-    tree.insert(111, "")
-    tree.insert(222, "")
-    tree.insert(88, "")
-    tree.insert(233, "")
-    tree.delete(233)
-    tree.delete(88)
-
-    val myList = tree.preorderTraverse()
-    for (item in myList) {
-        print("$item ")
-    }
+//    val tree = RBTree<Int, String>()
+//    tree.insert(111, "")
+//    tree.insert(222, "")
+//    tree.insert(88, "")
+//    tree.insert(233, "")
+//    tree.delete(233)
+//    tree.delete(88)
+//
+//    val myList = tree.preorderTraverse()
+//    for (item in myList) {
+//        print("$item ")
+//    }
 
 //    tree.findRelatives(20)
 //    tree.findRelatives(10)

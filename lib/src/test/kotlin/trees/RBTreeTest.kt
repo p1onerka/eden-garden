@@ -79,7 +79,8 @@ class RBTreeTest {
         tree.insert(111, "Yellow")
         tree.insert(33, "Green")
 
-        val expectedKeysAndColors = listOf(Pair(100, Color.BLACK), Pair(55, Color.BLACK), Pair(33, Color.RED), Pair(111, Color.BLACK))
+        val expectedKeysAndColors = listOf(Pair(100, Color.BLACK), Pair(55, Color.BLACK),
+            Pair(33, Color.RED), Pair(111, Color.BLACK))
         val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
         assertEquals(expectedKeysAndColors, actualKeysAndColors)
     }
@@ -172,20 +173,20 @@ class RBTreeTest {
         val tree = RBTree<Int, String>()
         tree.delete(5)
 
-        val expectedKeys: List<Int> = listOf()
-        val actualKeys = tree.preorderTraverse()
-        assertEquals(expectedKeys, actualKeys)
+        val expectedKeysAndColors: List<Pair<Int, Color>> = listOf()
+        val actualKeysAndColors = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
     }
 
     @Test
     fun `delete RED node with two children (left subtree & right leaf)`() {
         val tree = RBTree<Int, String>()
-        tree.insert(20, "")
-        tree.insert(10, "")
-        tree.insert(40, "")
-        tree.insert(30, "")
-        tree.insert(45, "")
-        tree.insert(33, "")
+        tree.insert(20, "I spy")
+        tree.insert(10, "with")
+        tree.insert(40, "my")
+        tree.insert(30, "little")
+        tree.insert(45, "tired")
+        tree.insert(33, "eye")
         tree.delete(40)
 
         val expectedKeysAndColors = listOf(Pair(20, Color.BLACK), Pair(10, Color.BLACK),
@@ -197,12 +198,12 @@ class RBTreeTest {
     @Test
     fun `delete RED node with no children`() {
         val tree = RBTree<Int, String>()
-        tree.insert(20, "")
-        tree.insert(10, "")
-        tree.insert(40, "")
-        tree.insert(30, "")
-        tree.insert(45, "")
-        tree.insert(33, "")
+        tree.insert(20, "I")
+        tree.insert(10, "don't")
+        tree.insert(40, "wanna")
+        tree.insert(30, "live")
+        tree.insert(45, "forever")
+        tree.insert(33, "!")
         tree.delete(33)
 
         val expectedKeysAndColors = listOf(Pair(20, Color.BLACK), Pair(10, Color.BLACK),
@@ -214,12 +215,12 @@ class RBTreeTest {
     @Test
     fun `delete BLACK node with one right RED child`() {
         val tree = RBTree<Int, String>()
-        tree.insert(20, "")
-        tree.insert(10, "")
-        tree.insert(40, "")
-        tree.insert(30, "")
-        tree.insert(45, "")
-        tree.insert(25, "")
+        tree.insert(20, "Is")
+        tree.insert(10, "it")
+        tree.insert(40, "really")
+        tree.insert(30, "worth")
+        tree.insert(45, "itt")
+        tree.insert(25, "?")
         tree.delete(30)
 
         val expectedKeysAndColors = listOf(Pair(20, Color.BLACK), Pair(10, Color.BLACK),
@@ -231,12 +232,12 @@ class RBTreeTest {
     @Test
     fun `delete BLACK node with one left RED child`() {
         val tree = RBTree<Int, String>()
-        tree.insert(20, "")
-        tree.insert(10, "")
-        tree.insert(40, "")
-        tree.insert(30, "")
-        tree.insert(45, "")
-        tree.insert(33, "")
+        tree.insert(20, "How")
+        tree.insert(10, "many")
+        tree.insert(40, "easter")
+        tree.insert(30, "eggs")
+        tree.insert(45, "can")
+        tree.insert(33, "you")
         tree.delete(30)
 
         val expectedKeysAndColors = listOf(Pair(20, Color.BLACK), Pair(10, Color.BLACK),
@@ -248,12 +249,12 @@ class RBTreeTest {
     @Test
     fun `delete BLACK node with no children and RED sibling`() {
         val tree = RBTree<Int, String>()
-        tree.insert(20, "")
-        tree.insert(10, "")
-        tree.insert(40, "")
-        tree.insert(30, "")
-        tree.insert(45, "")
-        tree.insert(33, "")
+        tree.insert(20, "find")
+        tree.insert(10, "in")
+        tree.insert(40, "these")
+        tree.insert(30, "wonderful")
+        tree.insert(45, "tests")
+        tree.insert(33, "?")
         tree.delete(10)
 
         val expectedKeysAndColors = listOf(Pair(40, Color.BLACK), Pair(30, Color.RED),
@@ -265,12 +266,12 @@ class RBTreeTest {
     @Test
     fun `delete BLACK node with two children (left subtree & right leaf)`() {
         val tree = RBTree<Int, String>()
-        tree.insert(100, "")
-        tree.insert(80, "")
-        tree.insert(200, "")
-        tree.insert(60, "")
-        tree.insert(90, "")
-        tree.insert(65, "")
+        tree.insert(100, "I")
+        tree.insert(80, "hope")
+        tree.insert(200, "you")
+        tree.insert(60, "enjoy")
+        tree.insert(90, "it")
+        tree.insert(65, "as")
         tree.delete(100)
 
         val expectedKeysAndColors = listOf(Pair(80, Color.BLACK), Pair(60, Color.BLACK),
@@ -282,12 +283,12 @@ class RBTreeTest {
     @Test
     fun `delete left BLACK node with RED right child`() {
         val tree = RBTree<Int, String>()
-        tree.insert(100, "")
-        tree.insert(80, "")
-        tree.insert(200, "")
-        tree.insert(60, "")
-        tree.insert(90, "")
-        tree.insert(88, "")
+        tree.insert(100, "much")
+        tree.insert(80, "as")
+        tree.insert(200, "I")
+        tree.insert(60, "do")
+        tree.insert(90, ".")
+        tree.insert(88, "I'm")
         tree.delete(60)
 
         val expectedKeysAndColors = listOf(Pair(100, Color.BLACK), Pair(88, Color.RED),
@@ -299,10 +300,10 @@ class RBTreeTest {
     @Test
     fun `delete BLACK node with no children and BLACK sibling`() {
         val tree = RBTree<Int, String>()
-        tree.insert(111, "")
-        tree.insert(222, "")
-        tree.insert(88, "")
-        tree.insert(233, "")
+        tree.insert(111, "running")
+        tree.insert(222, "out")
+        tree.insert(88, "of")
+        tree.insert(233, "words")
         tree.delete(233)
         tree.delete(88)
 
