@@ -2,6 +2,7 @@ package trees
 
 import RB.Color
 import RB.RBTree
+import abstractions.BSTree
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
 
@@ -158,9 +159,45 @@ class RBTreeTest {
     }
 
     @Test
-    fun `delete node with non-existing key`() {}
+    fun `delete node with non-existing key`() {
+        val tree = RBTree<Int, String>()
+        tree.insert(10, "Yes")
+        tree.insert(20, "No")
+        tree.insert(30, "Not sure")
+        tree.delete(15)
+
+        val expectedKeysAndColors = listOf(Pair(20, Color.BLACK), Pair(10, Color.RED), Pair(30, Color.RED))
+        val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
+    }
 
     @Test
-    fun `delete node from an empty tree`() {}
+    fun `delete node from an empty tree`() {
+        val tree = RBTree<Int, String>()
+        tree.delete(5)
+
+        val expectedKeys: List<Int> = listOf()
+        val actualKeys = tree.preorderTraverse()
+        assertEquals(expectedKeys, actualKeys)
+    }
+
+    @Test
+    fun `delete RED node with right child`() {
+        val tree = RBTree<Int, String>()
+        tree.insert(20, "")
+        tree.insert(10, "")
+        tree.insert(40, "")
+        tree.insert(30, "")
+        tree.insert(45, "")
+        tree.insert(33, "")
+        tree.delete(40)
+
+        val expectedKeysAndColors = listOf(Pair(20, Color.BLACK), Pair(10, Color.BLACK),
+            Pair(33, Color.RED), Pair(30, Color.BLACK), Pair(45, Color.BLACK))
+        val actualKeysAndColors: List<Pair<Int, Color>> = tree.preorderTraverse()
+        assertEquals(expectedKeysAndColors, actualKeysAndColors)
+    }
+
+
 }
 
