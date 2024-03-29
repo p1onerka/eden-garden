@@ -211,32 +211,28 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
         var node = curNode
         val sibling = getSibling(node)
         if(sibling?.color == Color.RED) {
-            val parent = findParent(node)
-            parent?.color = Color.RED
+            val parent = findParent(node) ?: throw IllegalArgumentException("Parent cannot be null")
+            parent.color = Color.RED
             sibling.color = Color.BLACK
-            if (node == parent?.leftChild) {
+            if (node == parent.leftChild) {
                 println("case 2.1")
-                if (parent != null) {
-                    val grandparent = getGrandparent(node)
-                    rotateLeft(parent, grandparent)
-                    //parent = node
+                val grandparent = getGrandparent(node)
+                rotateLeft(parent, grandparent)
+                //parent = node
 
-                    //here is the problem
-                    //node = node.leftChild ?: return //?: throw IllegalArgumentException("Node should have left child after left rotation")
-                }
+                //here is the problem
+                //node = node.leftChild ?: return //?: throw IllegalArgumentException("Node should have left child after left rotation")
 
             }
             else {
                 println("case 2.2")
-                if (parent != null) {
-                    val grandparent = getGrandparent(node)
-                    rotateRight(parent, grandparent)
-                    //parent = node
+                val grandparent = getGrandparent(node)
+                rotateRight(parent, grandparent)
+                //parent = node
 
 
-                    //here is the problem
-                    //node = node.rightChild ?: return //?: throw IllegalArgumentException("Node should have right child after right rotation")
-                }
+                //here is the problem
+                //node = node.rightChild ?: return //?: throw IllegalArgumentException("Node should have right child after right rotation")
             }
         }
         deleteCase3(node)
@@ -250,14 +246,14 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
      *       BLACK     BLACK
      */
     private fun deleteCase3(node: RBNode<K, V>) {
-        println("hhh")
+//        println("hhh")
         val sibling = getSibling(node)
-        println("${sibling?.key}")
+//        println("${sibling?.key}")
 //        if (sibling != null) findRelatives(sibling.key)
-        val parent = findParent(node)
-        println("${parent?.key}")
+        val parent = findParent(node) ?: throw IllegalArgumentException("Parent cannot be null")
+//        println("${parent?.key}")
 //        if (parent != null) findRelatives(parent.key)
-        if(parent?.color == Color.BLACK && (sibling?.color == Color.BLACK) &&
+        if(parent.color == Color.BLACK && (sibling?.color == Color.BLACK) &&
             (sibling.rightChild?.color == Color.BLACK || sibling.rightChild == null)
             && (sibling.leftChild?.color == Color.BLACK || sibling.leftChild == null)) {
             println("case 3")
@@ -277,8 +273,8 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
      */
     private fun deleteCase4(node: RBNode<K, V>) {
         val sibling = getSibling(node)
-        val parent = findParent(node)
-        if(parent?.color == Color.RED && sibling?.color == Color.BLACK &&
+        val parent = findParent(node) ?: throw IllegalArgumentException("Parent cannot be null")
+        if(parent.color == Color.RED && sibling?.color == Color.BLACK &&
             (sibling.rightChild?.color == Color.BLACK || sibling.rightChild == null)
             && (sibling.leftChild?.color == Color.BLACK || sibling.leftChild == null)) {
             println("case 4")
@@ -297,12 +293,12 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
      *       RED   BLACK
      */
     private fun deleteCase5(node: RBNode<K, V>) {
-        val sibling = getSibling(node)
-        println("${sibling?.key}")
+        val sibling = getSibling(node) ?: throw IllegalArgumentException("Sibling cannot be null")
+//        println("${sibling?.key}")
 //        if (sibling != null) findRelatives(sibling.key)
-        val parent = findParent(node)
-        println("${parent?.key}")
-        if (node == parent?.leftChild && sibling?.color == Color.BLACK &&
+        val parent = findParent(node) ?: throw IllegalArgumentException("Parent cannot be null")
+//        println("${parent?.key}")
+        if (node == parent.leftChild && sibling.color == Color.BLACK &&
             (sibling.rightChild?.color == Color.BLACK || sibling.rightChild == null) && sibling.leftChild?.color == Color.RED) {
             println("case 5.1")
             sibling.color = Color.RED
@@ -311,14 +307,14 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
             //val leftNephew = sibling.leftChild
             rotateRight(sibling, parent)
         }
-        else if (node == parent?.rightChild && sibling?.color == Color.BLACK &&
+        else if (node == parent.rightChild && sibling.color == Color.BLACK &&
             sibling.rightChild?.color == Color.RED && (sibling.leftChild?.color == Color.BLACK || sibling.leftChild == null)) {
             println("case 5.2")
 
             sibling.color = Color.RED
             sibling.rightChild?.color = Color.BLACK
-            println("${sibling.key}, ${sibling.color}")
-            println("${sibling.rightChild?.key}, ${sibling.rightChild?.color}")
+//            println("${sibling.key}, ${sibling.color}")
+//            println("${sibling.rightChild?.key}, ${sibling.rightChild?.color}")
 
             rotateLeft(sibling, parent)
         }
@@ -334,36 +330,30 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
      */
     private fun deleteCase6(node: RBNode<K, V>) {
         //val node = curNode
-        val sibling = getSibling(node)
-        val parent = findParent(node)
+        val sibling = getSibling(node) ?: throw IllegalArgumentException("Sibling cannot be null")
+        val parent = findParent(node) ?: throw IllegalArgumentException("Parent cannot be null")
         val grandparent = getGrandparent(node)
-        val color = parent?.color
-        if (color != null) sibling?.color = color
-        parent?.color = Color.BLACK
+        val color = parent.color
+        sibling.color = color
+        parent.color = Color.BLACK
 
-        if (node == parent?.leftChild) {
+        if (node == parent.leftChild) {
             println("case 6.1")
-            sibling?.rightChild?.color = Color.BLACK
-            if (parent != null) {
-                rotateLeft(parent, grandparent)
-                //parent = node
-                //node = node.leftChild?: throw IllegalArgumentException("Node should have left child after left rotation")
-            }
+            sibling.rightChild?.color = Color.BLACK
+            rotateLeft(parent, grandparent)
         }
         else {
             println("case 6.2")
-            println("${sibling?.key}")
+//            println("${sibling?.key}")
 //            findRelatives(node.key)
 //            if (sibling != null) findRelatives(sibling.key)
-            sibling?.leftChild?.color = Color.BLACK
-            println("${sibling?.leftChild?.key}, ${sibling?.leftChild?.color}")
-            if (parent != null) {
-                rotateRight(parent, grandparent)
-                println("${sibling?.leftChild?.key}, ${sibling?.leftChild?.color}")
+            sibling.leftChild?.color = Color.BLACK
+//            println("${sibling?.leftChild?.key}, ${sibling?.leftChild?.color}")
+            rotateRight(parent, grandparent)
+//            println("${sibling?.leftChild?.key}, ${sibling?.leftChild?.color}")
 
-                //parent = node
-                //node = node.rightChild?: throw IllegalArgumentException("Node should have right child after right rotation")
-            }
+            //parent = node
+            //node = node.rightChild?: throw IllegalArgumentException("Node should have right child after right rotation")
         }
     }
 
@@ -390,13 +380,20 @@ class RBTree<K : Comparable<K>, V>: balancedTree<K, V, RBNode<K, V>>() {
 
 fun main(){
 //    val tree = RBTree<Int, String>()
-//    tree.insert(111, "")
-//    tree.insert(222, "")
-//    tree.insert(88, "")
-//    tree.insert(233, "")
-//    tree.delete(233)
-//    tree.delete(88)
-//
+//    tree.insert(111, "running")
+//    tree.insert(222, "out")
+//    tree.insert(88, "of")
+//    tree.insert(225, "words")
+//    tree.insert(34, "words")
+//    tree.insert(99, "words")
+//    tree.insert(150, "words")
+//    tree.insert(97, "words")
+//    tree.insert(233, "words")
+//    tree.insert(98, "words")
+//    tree.delete(222)
+//    tree.delete(98)
+//    tree.delete(111)
+//    tree.delete(34)
 //    val myList = tree.preorderTraverse()
 //    for (item in myList) {
 //        print("$item ")
