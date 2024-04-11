@@ -3,24 +3,24 @@
 This library allows you to use three types of binary search trees: simple, AVL and Red-Black tree. [AVL](https://en.wikipedia.org/wiki/AVL_tree) and [Red-Black](https://en.wikipedia.org/wiki/Red–black_tree) tree implement their natural balancing.
 
 ## Getting started
-Download our lib from [Releases](https://github.com/spbu-coding-2023/trees-5/releases)
+1. Download our lib from [Releases](https://github.com/spbu-coding-2023/trees-5/releases)
+2. Open your project
+3. Go to `File > New > Module from Existing Sources...`
+4. Choose the lib you downloaded
+5. Add this in your program:
 
-To run test simply write:
-```
-  ./gradlew test
-  ```
-To use trees for your own purposes:
 ```
   import trees.*
   ```
-You can replace `*` with any specific tree.
+You can replace `*` with any specific tree
+
 
 ## How to use
 There are 4 public methods you can use for each tree:
 
-* `insert(key, value)`  inserts a node with such key and value. If a node with the same key already exists in the tree, old value is replaced with the new one. Note that key should be of Comparable type.
-* `delete(key)`  deletes a node with such key. If there is no node with that key, nothing is done.
-* `find(key)`  finds a node with such key and returns its value. If there is no node with that key, null is returned.
+* `insert(key, value)`  inserts a node with such key and value. If a node with the same key already exists in the tree, old value is replaced with the new one. Note that key should be of Comparable type
+* `delete(key)`  deletes a node with such key. If there is no node with that key, nothing is done
+* `find(key)`  finds a node with such key and returns its value. If there is no node with that key, null is returned
 * `preorderTraverse()`  traverses the tree recursively from `parent` to `left child` to `right child` (specific for every tree)
 
 Now you can simply create a tree: `BSTree`, `AVLTree` or `RBTree`:
